@@ -20,12 +20,13 @@ find_path(AXIOM_INCLUDE_DIR
 
 file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/application.cpp"
+  "src/forma/ui_context.cpp"
+  "src/forma/component.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})
 
 target_include_directories(Forma PUBLIC
-  #include directories.
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   ${AXIOM_INCLUDE_DIR}
   ${AXIOM_INCLUDE_DIR}/platform
