@@ -1,5 +1,6 @@
 #pragma once
 #include "forma/ui_Context.hpp"
+#include "forma/layout.hpp"
 #include <cstdint>
 #include <vector>
 #include <memory>
@@ -11,6 +12,8 @@ public:
   explicit Component();
   virtual ~Component() = default;
 
+  uint32_t ID() const;
+  Layout GetLayout() const;
   Component *Parent() const;
 
   template<typename T, typename... Args>
@@ -25,9 +28,9 @@ public:
   void Remove(Component& component);
 
   void Initialize(Component* parent, UIContext* context);
-  void SetID(uint32_t id);
 protected:
   uint32_t m_id{};
+  Layout m_layout;
   Component *m_parent{nullptr};
   UIContext* m_context{nullptr};
   std::vector<std::unique_ptr<Component>> m_children;

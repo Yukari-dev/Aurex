@@ -11,6 +11,14 @@ Component *Component::Parent() const {
   return m_parent; 
 }
 
+uint32_t Component::ID() const {
+  return m_id;
+}
+
+Layout Component::GetLayout() const {
+  return m_layout;
+}
+
 void Component::Remove(Component& component){
   if(&component == this || &component == m_parent)
     return;
@@ -28,11 +36,7 @@ void Component::Remove(Component& component){
 void Component::Initialize(Component *parent, UIContext* context){
   m_parent = parent;
   m_context = context;
-  SetID(m_context->GetID());
-}
-
-void Component::SetID(uint32_t id){
-  m_id = id;
+   m_id = m_context->GetID();
 }
 
 }

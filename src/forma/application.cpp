@@ -2,6 +2,7 @@
 #include "forma/component.hpp"
 
 #include <cassert>
+#include <iostream>
 
 namespace Forma{
 
@@ -17,6 +18,7 @@ int Application::Run(){
   root.Initialize(nullptr, m_context.get());
   
   auto& test = root.Add<Component>();
+  std::cout << "x: " << test.GetLayout().GetPosition().x << '\n';
 
   while (!m_window->ShouldClose()){
     m_window->PollEvents();
