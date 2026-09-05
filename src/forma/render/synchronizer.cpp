@@ -5,27 +5,28 @@
 
 namespace Forma{
 
-void Synchronizer::Sync(Component& root, RenderTree& renderTree){
+void Synchronizer::Sync(Component& root, RenderNode& parent){
   for(const auto& child : root.Children()){
     Component& comp = *child;
-    auto *renderable = dynamic_cast<IRenderable*>(&comp);
-    if(renderable){
+    RenderNode &currentParent = parent;
+    if (auto *renderable = dynamic_cast<IRenderable*>(&comp)){
       auto data = renderable->RenderData();
       if(auto *panelData = AsData<PanelRenderData>(data.get())){
-        auto& root = renderTree.Root();
-        auto* node = root.Find<PanelRenderNode>(comp.ID());
+        auto *node = parent.Find<PanelRenderNode>(comp.ID());
 
-        if (!node) {
-          node = &root.Add<PanelRenderNode>();
-          node ->SetID(comp.ID());
+        if(!node){
+          node = &parent.Add<PanelRenderNode>();
+          node->SetID(comp.ID());
         }
 
         node->position = panelData->position;
         node->size = panelData->size;
         node->color = panelData->color;
+
+        currentParent = *node;
       }
     }
-    Sync(comp, renderTree);
+    Sync(comp, currentParent);
   }
 }
 

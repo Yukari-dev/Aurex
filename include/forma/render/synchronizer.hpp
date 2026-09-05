@@ -1,13 +1,13 @@
 #pragma once
 #include "forma/component.hpp"
 #include "forma/render/render_data.hpp"
-#include "forma/render/render_tree.hpp"
+#include "forma/render/render_node.hpp"
 
 namespace Forma{
 
 class Synchronizer{
 public:
-  void Sync(Component& root, RenderTree& renderTree);
+  void Sync(Component& root, RenderNode& parent);
 
   template <typename T>
   T* AsData(RenderData* data){
