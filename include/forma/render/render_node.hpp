@@ -7,11 +7,22 @@
 
 namespace Forma{
 
+class Renderer;
+
 class RenderNode{
 public:
+  RenderNode() = default;
   virtual ~RenderNode() = default;
 
+  RenderNode(const RenderNode&) = delete;
+  RenderNode& operator=(const RenderNode&) = delete;
+
+  RenderNode(RenderNode&&) = default;
+  RenderNode& operator=(RenderNode&&) = default;
+
   RenderNode *Parent() const;
+
+  virtual void Draw(Renderer& renderer) {}
 
   template<typename T, typename... Args>
   T& Add(Args&& ...args){
@@ -39,6 +50,8 @@ public:
       return dynamic_cast<T*>(it->get());
     return nullptr;
   }
+
+  const std::vector<std::unique_ptr<RenderNode>>& Children() const;
 
   uint32_t ID() const;
   void SetID(uint32_t id);

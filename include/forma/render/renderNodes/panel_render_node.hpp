@@ -6,6 +6,8 @@ namespace Forma{
 
 class PanelRenderNode : public RenderNode{
 public:
+  void Draw(Renderer& renderer) override;
+
   Vec2 position{};
   Size size{};
   Color color{};

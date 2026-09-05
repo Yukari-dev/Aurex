@@ -18,6 +18,10 @@ void RenderNode::Remove(RenderNode& node){
   }
 }
 
+const std::vector<std::unique_ptr<RenderNode>>& RenderNode::Children() const{
+  return m_children;
+}
+
 uint32_t RenderNode::ID() const{
   return m_id;
 }

@@ -1,6 +1,6 @@
 #include "forma/render/synchronizer.hpp"
-#include "forma/render/components/panel_render_data.hpp"
-#include "forma/render/renderData/panel_render_node.hpp"
+#include "forma/render/renderData/panel_render_data.hpp"
+#include "forma/render/renderNodes/panel_render_node.hpp"
 #include "forma/render/renderable.hpp"
 
 namespace Forma{
@@ -8,7 +8,7 @@ namespace Forma{
 void Synchronizer::Sync(Component& root, RenderNode& parent){
   for(const auto& child : root.Children()){
     Component& comp = *child;
-    RenderNode &currentParent = parent;
+    RenderNode *currentParent = &parent;
     if (auto *renderable = dynamic_cast<IRenderable*>(&comp)){
       auto data = renderable->RenderData();
       if(auto *panelData = AsData<PanelRenderData>(data.get())){
@@ -23,10 +23,10 @@ void Synchronizer::Sync(Component& root, RenderNode& parent){
         node->size = panelData->size;
         node->color = panelData->color;
 
-        currentParent = *node;
+        currentParent = node;
       }
     }
-    Sync(comp, currentParent);
+    Sync(comp, *currentParent);
   }
 }
 

@@ -27,6 +27,8 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/render/render_node.cpp"
   "src/forma/render/render_tree.cpp"
   "src/forma/render/synchronizer.cpp"
+  "src/forma/render/renderer.cpp"
+  "src/forma/render/renderNodes/panel_render_node.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})

@@ -5,10 +5,18 @@ namespace Forma{
 
 struct Vec2{
   float x, y;
+
+  glm::vec2 ToGlm()const {
+    return glm::vec2{x, y};
+  }
 };
 
 struct Size{
   float width, height;
+
+  glm::vec2 ToGlm() const{
+    return glm::vec2{width, height};
+  }
 };
 
 struct Color{
@@ -23,6 +31,10 @@ struct Color{
   Color Normalize(){
     Color color = {r, g, b, a};
     return color / 255.0f;
+  }
+
+  glm::vec3 ToGlm() const{
+    return glm::vec3{r, g, b};
   }
 };
 
