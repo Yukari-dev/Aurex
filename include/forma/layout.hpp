@@ -8,11 +8,11 @@ public:
   void SetPosition(Vec2 position);
   void SetSize(Size size);
 
-  Vec2 GetPosition() const;
-  Size GetSize() const;
+  Forma::Vec2 Position() const;
+  Forma::Size Size() const;
 private:
-  Vec2 m_position{};
-  Size m_size{};
+  Forma::Vec2 m_position{};
+  Forma::Size m_size{};
 };
 
 }

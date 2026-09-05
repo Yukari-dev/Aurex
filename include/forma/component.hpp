@@ -13,8 +13,10 @@ public:
   virtual ~Component() = default;
 
   uint32_t ID() const;
-  Layout GetLayout() const;
+  Forma::Layout& Layout();
+  const Forma::Layout& Layout() const;
   Component *Parent() const;
+  const std::vector<std::unique_ptr<Component>>& Children() const;
 
   template<typename T, typename... Args>
   T& Add(Args&& ...args){
@@ -30,7 +32,7 @@ public:
   void Initialize(Component* parent, UIContext* context);
 protected:
   uint32_t m_id{};
-  Layout m_layout;
+  Forma::Layout m_layout;
   Component *m_parent{nullptr};
   UIContext* m_context{nullptr};
   std::vector<std::unique_ptr<Component>> m_children;

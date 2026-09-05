@@ -23,6 +23,10 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/ui_context.cpp"
   "src/forma/component.cpp"
   "src/forma/layout.cpp"
+  "src/forma/components/panel.cpp"
+  "src/forma/render/render_node.cpp"
+  "src/forma/render/render_tree.cpp"
+  "src/forma/render/synchronizer.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})

@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
 
+namespace Forma{
+
 struct Vec2{
   float x, y;
 };
@@ -27,3 +29,5 @@ struct Color{
 struct Padding{
   float top, bottom, right, left;
 };
+
+}

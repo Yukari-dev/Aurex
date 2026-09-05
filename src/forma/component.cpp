@@ -15,8 +15,16 @@ uint32_t Component::ID() const {
   return m_id;
 }
 
-Layout Component::GetLayout() const {
+Layout& Component::Layout() {
   return m_layout;
+}
+
+const Layout& Component::Layout() const {
+  return m_layout;
+}
+
+const std::vector<std::unique_ptr<Component>>& Component::Children() const{
+  return m_children;
 }
 
 void Component::Remove(Component& component){
