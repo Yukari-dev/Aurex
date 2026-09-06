@@ -3,10 +3,21 @@
 
 namespace Forma{
 
+enum class MouseButton{
+  Left,
+  Middle,
+  Right
+};
+
+enum class MouseAction{
+  Press,
+  Release
+};
+
 struct MouseEvent{
   Vec2 position{};
-  int button{};
-  bool handled{false};
+  MouseButton button{};
+  MouseAction action{};
 };
 
 class IMouseTarget{

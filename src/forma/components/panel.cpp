@@ -27,15 +27,23 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
 }
 
 void Panel::OnMouseEnter(MouseEvent& event){
- m_color = m_color - 150;
+
 }
 
 void Panel::OnMouseLeave(MouseEvent& event) {
- m_color = m_defaultColor;
+
 }
 
 void Panel::OnMouseMove(MouseEvent& event) {
 
+}
+
+void Panel::OnMouseDown(MouseEvent& event){
+  m_color = m_color - 150.0f;
+}
+
+void Panel::OnMouseUp(MouseEvent& event){
+  m_color = m_defaultColor;
 }
 
 Panel& Panel::SetColor(Forma::Color color){

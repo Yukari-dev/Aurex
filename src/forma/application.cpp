@@ -9,7 +9,8 @@ Application::Application() {
   m_window = std::make_unique<Window>(800, 600, "Forma");
   m_rhi = std::make_unique<RhiContext>(m_window->GetHandler(), m_window->GetWidth(), m_window->GetHeight());
   m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
-  m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouse(x, y); });
+  m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouseMove(x, y); });
+  m_rhi->SetMouseButtonCallback([this](int button, int actions, int mods) { this->OnMouseButton(button, actions, mods); });
   m_graphicsRenderer = std::make_unique<Renderer2D>(*m_rhi);
   m_context = std::make_unique<UIContext>();
   m_renderTree = std::make_unique<RenderTree>();
@@ -103,8 +104,30 @@ void Application::OnResize(int width, int height){
   m_context->Root().Layout().SetSize(m_viewportSize);
 }
 
-void Application::OnMouse(double x, double y){
+void Application::OnMouseMove(double x, double y){
   m_input->SetMousePosition({static_cast<float>(x), static_cast<float>(y)});
+}
+
+void Application::OnMouseButton(int button, int actions, int mods){
+  MouseButton mouseButton{};
+  switch(button){
+    case GLFW_MOUSE_BUTTON_LEFT:
+      mouseButton = MouseButton::Left; break;
+    case GLFW_MOUSE_BUTTON_MIDDLE:
+      mouseButton = MouseButton::Middle; break;
+    case GLFW_MOUSE_BUTTON_RIGHT:
+      mouseButton = MouseButton::Right; break;
+  }
+
+  MouseAction mouseAction{};
+  switch(actions){
+    case GLFW_PRESS:
+      mouseAction = MouseAction::Press; break;
+    case GLFW_RELEASE:
+      mouseAction = MouseAction::Release; break;
+  }
+
+  m_input->SetMouseButton(mouseButton, mouseAction);
 }
 
 }
