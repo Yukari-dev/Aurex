@@ -12,7 +12,7 @@ public:
 
   std::unique_ptr<Forma::RenderData> RenderData() const override;
 
-  void SetColor(Color color);
+  Panel& SetColor(Color color);
   Forma::Color Color() const;
 
 private:

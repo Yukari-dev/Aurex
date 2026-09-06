@@ -7,7 +7,7 @@ namespace Forma{
 
 class Synchronizer{
 public:
-  void Sync(Component& root, RenderNode& parent, Vec2 parentPosition = {0, 0}, Size size = {0, 0});
+  void Sync(Component& root, RenderNode& parent, Rect parentRect);
 
   template <typename T>
   T* AsData(RenderData* data){

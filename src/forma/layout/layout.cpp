@@ -17,6 +17,16 @@ Layout& Layout::SetPositionType(Forma::PositionType type){
   return *this;
 }
 
+Layout& Layout::SetAnchor(Forma::Anchor anchor){
+  m_anchor = anchor;
+  return *this;
+}
+
+Layout& Layout::SetParentAnchor(Forma::Anchor anchor){
+  m_parentAnchor = anchor;
+  return *this;
+}
+
 Layout& Layout::SetSizeType(Forma::SizeType sizeType){
   m_sizeType = sizeType;
   return *this;
@@ -34,8 +44,24 @@ PositionType Layout::PositionType() const {
   return m_positionType;
 }
 
+Anchor Layout::Anchor() const {
+  return m_anchor;
+}
+
+Anchor Layout::ParentAnchor() const{
+  return m_parentAnchor;
+}
+
 SizeType Layout::SizeType() const {
   return m_sizeType;
+}
+
+Forma::Rect Layout::Rect() const{
+  return Forma::Rect{m_position, m_size};
+}
+
+bool Layout::HasAnchor() const{
+  return m_positionType == PositionType::Anchor;
 }
 
 }

@@ -33,17 +33,48 @@ int Application::Run() {
 
   panel.SetOrder(5);
 
-  // auto &child = panel.Add<Panel>();
-  // child.Layout()
-  //   .SetPosition({2, 2})
-  //   .SetPositionType(PositionType::Relative)
-  //   .SetSizeType(SizeType::Fill);
-  // child.SetColor({128, 255, 255});
+  panel.Add<Panel>()
+    .SetColor({128, 255, 255})
+    .Layout()
+    .SetPosition({2, 2})
+    .SetPositionType(PositionType::Anchor)
+    .SetSizeType(SizeType::Percent)
+    .SetSize({0.485f, 0.485f});
+
+  panel.Add<Panel>()
+    .SetColor({255, 128, 255})
+    .Layout()
+    .SetPosition({-2, 2})
+    .SetPositionType(PositionType::Anchor)
+    .SetAnchor(Anchor::TopRight)
+    .SetParentAnchor(Anchor::TopRight)
+    .SetSizeType(SizeType::Percent)
+    .SetSize({0.485f, 0.485f});
+
+  panel.Add<Panel>()
+    .SetColor({255, 255, 128})
+    .Layout()
+    .SetPosition({2, -2})
+    .SetPositionType(PositionType::Anchor)
+    .SetAnchor(Anchor::BottomLeft)
+    .SetParentAnchor(Anchor::BottomLeft)
+    .SetSizeType(SizeType::Percent)
+    .SetSize({0.485f, 0.485f});
+
+  panel.Add<Panel>()
+    .SetColor({255, 255, 255})
+    .Layout()
+    .SetPosition({-2, -2})
+    .SetPositionType(PositionType::Anchor)
+    .SetAnchor(Anchor::BottomRight)
+    .SetParentAnchor(Anchor::BottomRight)
+    .SetSizeType(SizeType::Percent)
+    .SetSize({0.485f, 0.485f});
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
 
-    m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Position(), root.Layout().Size());
+    m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
 
     m_rhi->BeginFrame();
     m_graphicsRenderer->Begin();

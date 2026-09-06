@@ -24,8 +24,9 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   return data;
 }
 
-void Panel::SetColor(Forma::Color color){
+Panel& Panel::SetColor(Forma::Color color){
   m_color = color;
+  return *this;
 }
 
 Color Panel::Color() const{

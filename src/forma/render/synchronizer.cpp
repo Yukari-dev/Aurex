@@ -7,14 +7,14 @@
 
 namespace Forma{
 
-void Synchronizer::Sync(Component& root, RenderNode& parent, Vec2 parentPosition, Size parentSize){
+void Synchronizer::Sync(Component& root, RenderNode& parent, Rect parentRect){
   std::unordered_set<uint32_t> seen;
 
   for(const auto& child : root.Children()){
     Component& comp = *child;
     RenderNode *currentParent = &parent;
-    Vec2 position = LayoutResolver::ResolvePosition(comp.Layout(), parentPosition);
-    Size size = LayoutResolver::ResolveSize(comp.Layout(), parentSize);
+    Size size = LayoutResolver::ResolveSize(comp.Layout(), parentRect.Size());
+    Vec2 position = LayoutResolver::ResolvePosition(comp.Layout(), parentRect, size);
     if (auto *renderable = dynamic_cast<IRenderable*>(&comp)){
       auto data = renderable->RenderData();
       if(auto *panelData = AsData<PanelRenderData>(data.get())){
@@ -34,7 +34,7 @@ void Synchronizer::Sync(Component& root, RenderNode& parent, Vec2 parentPosition
         currentParent = node;
       }
     }
-    Sync(comp, *currentParent, position, size);
+    Sync(comp, *currentParent, Rect{position, size});
   }
   
   std::vector<RenderNode*> toRemove;
