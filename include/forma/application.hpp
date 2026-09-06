@@ -3,6 +3,7 @@
 #include "forma/render/renderer.hpp"
 #include "forma/render/synchronizer.hpp"
 #include "forma/ui_Context.hpp"
+#include "types/types.hpp"
 #include <memory>
 #include <axiom.h>
 
@@ -16,6 +17,9 @@ public:
 
   int Run();
 private:
+  void OnResize(int width, int heigh5);
+private:
+  Size m_viewportSize{};
   std::unique_ptr<Window> m_window{nullptr};
   std::unique_ptr<RhiContext> m_rhi{nullptr};
   std::unique_ptr<Renderer2D> m_graphicsRenderer{nullptr};

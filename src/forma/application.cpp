@@ -8,6 +8,7 @@ namespace Forma {
 Application::Application() {
   m_window = std::make_unique<Window>(800, 600, "Forma");
   m_rhi = std::make_unique<RhiContext>(m_window->GetHandler(), m_window->GetWidth(), m_window->GetHeight());
+  m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
   m_graphicsRenderer = std::make_unique<Renderer2D>(*m_rhi);
   m_context = std::make_unique<UIContext>();
   m_renderTree = std::make_unique<RenderTree>();
@@ -20,14 +21,16 @@ int Application::Run() {
   root.Initialize(nullptr, m_context.get());
 
   auto &background = root.Add<Panel>();
+
   background.Layout()
-    .SetPosition({0, 0})
-    .SetSize({800, 1200});
+    .SetSizeType(SizeType::Fill);
   background.SetColor({250, 250, 250});
 
   auto &panel = background.Add<Panel>();
   panel.Layout()
-    .SetPosition({300, 200})
+    .SetPositionType(PositionType::Anchor)
+    .SetAnchor(Anchor::Center)
+    .SetParentAnchor(Anchor::Center)
     .SetSize({200, 200});
   panel.SetColor({1, 1, 1});
 
@@ -85,6 +88,15 @@ int Application::Run() {
     m_rhi->EndFrame();
   }
   return 0;
+}
+
+void Application::OnResize(int width, int height){
+  m_viewportSize = {
+    static_cast<float>(width),
+    static_cast<float>(height)
+  };
+
+  m_context->Root().Layout().SetSize(m_viewportSize);
 }
 
 }
