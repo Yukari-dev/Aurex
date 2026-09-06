@@ -6,6 +6,10 @@ namespace Forma{
 struct Vec2{
   float x, y;
 
+  Vec2 operator+(const Vec2& other){
+    return {x + other.x, y + other.y};
+  }
+
   glm::vec2 ToGlm()const {
     return glm::vec2{x, y};
   }
@@ -40,6 +44,11 @@ struct Color{
 
 struct Padding{
   float top, bottom, right, left;
+};
+
+enum class PositionType{
+  Absolute,
+  Relative
 };
 
 }

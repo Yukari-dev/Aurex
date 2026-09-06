@@ -25,13 +25,15 @@ int Application::Run() {
   background.SetColor({255, 255, 255});
 
   auto &panel = root.Add<Panel>();
-  panel.Layout().SetPosition({0, 0});
-  panel.Layout().SetSize({800, 300});
-  panel.SetColor({0, 0, 128});
+  panel.Layout().SetPosition({300, 200});
+  panel.Layout().SetSize({200, 200});
+  panel.SetColor({0, 0, 0});
 
-  background.SetOrder(1);
-  panel.SetOrder(2);
-
+  auto &child = panel.Add<Panel>();
+  child.Layout().SetPosition({2, 2});
+  child.Layout().SetPositionType(PositionType::Relative);
+  child.Layout().SetSize({196, 196});
+  child.SetColor({255, 255, 255});
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();

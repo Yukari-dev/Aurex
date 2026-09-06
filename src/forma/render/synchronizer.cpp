@@ -1,4 +1,5 @@
 #include "forma/render/synchronizer.hpp"
+#include "forma/layout_resolver.hpp"
 #include "forma/render/renderData/panel_render_data.hpp"
 #include "forma/render/renderNodes/panel_render_node.hpp"
 #include "forma/render/renderable.hpp"
@@ -6,12 +7,13 @@
 
 namespace Forma{
 
-void Synchronizer::Sync(Component& root, RenderNode& parent){
+void Synchronizer::Sync(Component& root, RenderNode& parent, Vec2 parentPosition){
   std::unordered_set<uint32_t> seen;
 
   for(const auto& child : root.Children()){
     Component& comp = *child;
     RenderNode *currentParent = &parent;
+    Vec2 position = LayoutResolver::ResolvePosition(comp.Layout(), parentPosition);
     if (auto *renderable = dynamic_cast<IRenderable*>(&comp)){
       auto data = renderable->RenderData();
       if(auto *panelData = AsData<PanelRenderData>(data.get())){
@@ -22,7 +24,7 @@ void Synchronizer::Sync(Component& root, RenderNode& parent){
           node->SetID(comp.ID());
         }
 
-        node->position = panelData->position;
+        node->position = position;
         node->size = panelData->size;
         node->color = panelData->color;
         node->SetOrder(panelData->order);
@@ -31,7 +33,7 @@ void Synchronizer::Sync(Component& root, RenderNode& parent){
         currentParent = node;
       }
     }
-    Sync(comp, *currentParent);
+    Sync(comp, *currentParent, position);
   }
   
   std::vector<RenderNode*> toRemove;
