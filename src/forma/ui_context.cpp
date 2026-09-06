@@ -17,4 +17,8 @@ uint32_t UIContext::GetID(){
   return ++m_currentId;
 }
 
+Component *UIContext::Find(uint32_t id){
+  return m_root->Find(id);
+}
+
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include "types/types.hpp"
 #include <algorithm>
 #include <cstdint>
 #include <memory>
@@ -54,6 +55,12 @@ public:
   const std::vector<std::unique_ptr<RenderNode>>& Children() const;
 
   void SortChildren();
+
+  virtual bool Contains(Vec2 hitPoint) const {
+    return false;
+  }
+
+  RenderNode *HitTest(Vec2 point);
 
   int32_t Order() const;
   void SetOrder(int32_t o);

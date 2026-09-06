@@ -12,13 +12,17 @@ public:
   explicit Component();
   virtual ~Component() = default;
 
-  uint32_t ID() const;
-  Forma::Layout& Layout();
-  Component *Parent() const;
   const Forma::Layout& Layout() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;
+
+  uint32_t ID() const;
+
   int32_t Order() const;
   void SetOrder(int32_t o);
+
+  Component *Parent() const;
+
+  Forma::Layout& Layout();
 
   template<typename T, typename... Args>
   T& Add(Args&& ...args){
@@ -30,6 +34,8 @@ public:
   }
 
   void Remove(Component& component);
+
+  Component *Find(uint32_t id);
 
   void Initialize(Component* parent, UIContext* context);
 protected:

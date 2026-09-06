@@ -71,7 +71,18 @@ struct Rect{
 };
 
 struct Color{
-  float r, g, b, a;
+  float r{}, g{}, b{}, a{};
+
+  Color(float r, float g, float b) : r(r), g(g), b(b), a(255) {}
+  Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
+  Color(float s) : r(s), g(s), b(s), a(255) {}
+  Color() {}
+
+  Color operator-(float scalar){
+    return Color{
+      r - scalar, g - scalar, b - scalar, a
+    };
+  }
 
   Color operator/(float scalar){
     return Color{

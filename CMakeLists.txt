@@ -24,6 +24,7 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/component.cpp"
   "src/forma/layout/layout.cpp"
   "src/forma/layout/layout_resolver.cpp"
+  "src/forma/input/input_system.cpp"
   "src/forma/components/panel.cpp"
   "src/forma/render/render_node.cpp"
   "src/forma/render/render_tree.cpp"

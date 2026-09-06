@@ -9,4 +9,10 @@ void PanelRenderNode::Draw(Renderer& renderer){
   );
 }
 
+bool PanelRenderNode::Contains(Vec2 hitPoint) const {
+  return hitPoint.x >= position.x && hitPoint.x <= position.x + size.width &&
+         hitPoint.y >= position.y &&
+         hitPoint.y <= position.y + size.height;
+}
+
 }

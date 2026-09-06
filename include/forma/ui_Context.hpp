@@ -12,6 +12,8 @@ public:
   ~UIContext();
   
   Component& Root();
+  
+  Component *Find(uint32_t id);
 
   uint32_t GetID();
 private:

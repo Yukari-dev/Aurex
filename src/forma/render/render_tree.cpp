@@ -8,4 +8,8 @@ RenderNode &RenderTree::Root(){
   return *m_root;
 }
 
+RenderNode *RenderTree::HitTest(Vec2 point){
+  return m_root->HitTest(point);
+}
+
 }

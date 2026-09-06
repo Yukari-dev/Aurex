@@ -49,6 +49,16 @@ void Component::Remove(Component& component){
   );
 }
 
+Component *Component::Find(uint32_t id){
+  if(ID() == id) return this;
+
+  for(const auto& child : m_children){
+    if(auto * found = child->Find(id))
+      return found;
+  }
+  return nullptr;
+}
+
 void Component::Initialize(Component *parent, UIContext* context){
   m_parent = parent;
   m_context = context;

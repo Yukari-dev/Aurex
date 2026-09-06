@@ -31,6 +31,20 @@ void RenderNode::SortChildren(){
   );
 }
 
+RenderNode *RenderNode::HitTest(Vec2 point){
+  for(auto& child : m_children){
+    if(!child->Visible())
+      continue;
+
+    if(auto *hit = child->HitTest(point))
+      return hit;
+  }
+  if(Contains(point))
+    return this;
+
+  return nullptr;
+}
+
 int32_t RenderNode::Order() const{
   return m_order;
 }

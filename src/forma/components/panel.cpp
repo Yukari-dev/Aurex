@@ -1,5 +1,7 @@
 #include "forma/components/panel.hpp"
 #include "forma/render/renderData/panel_render_data.hpp"
+#include <algorithm>
+#include <iostream>
 
 namespace Forma{
 
@@ -24,8 +26,21 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   return data;
 }
 
+void Panel::OnMouseEnter(MouseEvent& event){
+ m_color = m_color - 150;
+}
+
+void Panel::OnMouseLeave(MouseEvent& event) {
+ m_color = m_defaultColor;
+}
+
+void Panel::OnMouseMove(MouseEvent& event) {
+
+}
+
 Panel& Panel::SetColor(Forma::Color color){
   m_color = color;
+  m_defaultColor = color;
   return *this;
 }
 

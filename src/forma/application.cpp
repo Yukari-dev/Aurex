@@ -9,11 +9,13 @@ Application::Application() {
   m_window = std::make_unique<Window>(800, 600, "Forma");
   m_rhi = std::make_unique<RhiContext>(m_window->GetHandler(), m_window->GetWidth(), m_window->GetHeight());
   m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
+  m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouse(x, y); });
   m_graphicsRenderer = std::make_unique<Renderer2D>(*m_rhi);
   m_context = std::make_unique<UIContext>();
   m_renderTree = std::make_unique<RenderTree>();
   m_synchronizer = std::make_unique<Synchronizer>();
   m_renderer = std::make_unique<Renderer>(*m_graphicsRenderer);
+  m_input = std::make_unique<InputSystem>(*m_context);
 }
 
 int Application::Run() {
@@ -32,7 +34,7 @@ int Application::Run() {
     .SetAnchor(Anchor::Center)
     .SetParentAnchor(Anchor::Center)
     .SetSize({200, 200});
-  panel.SetColor({1, 1, 1});
+  panel.SetColor({1});
 
   panel.SetOrder(5);
 
@@ -65,7 +67,7 @@ int Application::Run() {
     .SetSize({0.485f, 0.485f});
 
   panel.Add<Panel>()
-    .SetColor({255, 255, 255})
+    .SetColor({250})
     .Layout()
     .SetPosition({-2, -2})
     .SetPositionType(PositionType::Anchor)
@@ -78,6 +80,8 @@ int Application::Run() {
     m_window->PollEvents();
 
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
+
+    m_input->Update(*m_renderTree);
 
     m_rhi->BeginFrame();
     m_graphicsRenderer->Begin();
@@ -97,6 +101,10 @@ void Application::OnResize(int width, int height){
   };
 
   m_context->Root().Layout().SetSize(m_viewportSize);
+}
+
+void Application::OnMouse(double x, double y){
+  m_input->SetMousePosition({static_cast<float>(x), static_cast<float>(y)});
 }
 
 }
