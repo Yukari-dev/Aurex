@@ -2,7 +2,6 @@
 #include "forma/render/renderData/panel_render_data.hpp"
 #include "forma/render/renderNodes/panel_render_node.hpp"
 #include "forma/render/renderable.hpp"
-#include <algorithm>
 #include <unordered_set>
 
 namespace Forma{
@@ -26,6 +25,7 @@ void Synchronizer::Sync(Component& root, RenderNode& parent){
         node->position = panelData->position;
         node->size = panelData->size;
         node->color = panelData->color;
+        node->SetOrder(panelData->order);
         seen.insert(node->ID());
 
         currentParent = node;

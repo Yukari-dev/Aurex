@@ -14,9 +14,11 @@ public:
 
   uint32_t ID() const;
   Forma::Layout& Layout();
-  const Forma::Layout& Layout() const;
   Component *Parent() const;
+  const Forma::Layout& Layout() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;
+  int32_t Order() const;
+  void SetOrder(int32_t o);
 
   template<typename T, typename... Args>
   T& Add(Args&& ...args){
@@ -32,6 +34,7 @@ public:
   void Initialize(Component* parent, UIContext* context);
 protected:
   uint32_t m_id{};
+  int32_t m_order{};
   Forma::Layout m_layout;
   Component *m_parent{nullptr};
   UIContext* m_context{nullptr};

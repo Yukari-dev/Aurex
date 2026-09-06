@@ -11,6 +11,7 @@ public:
   Vec2 position{};
   Size size{};
   Color color{};
+  int32_t order{};
 };
 
 }

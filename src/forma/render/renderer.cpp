@@ -18,6 +18,8 @@ void Renderer::RenderNodeTree(RenderNode& node){
 
   node.Draw(*this);
 
+  node.SortChildren();
+
   for(const auto& child : node.Children()){
     RenderNodeTree(*child);
   }

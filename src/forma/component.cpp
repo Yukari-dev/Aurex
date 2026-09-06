@@ -27,6 +27,14 @@ const std::vector<std::unique_ptr<Component>>& Component::Children() const{
   return m_children;
 }
 
+int32_t Component::Order() const{
+  return m_order;
+}
+
+void Component::SetOrder(int32_t o){
+  m_order = o;
+}
+
 void Component::Remove(Component& component){
   if(&component == this || &component == m_parent)
     return;

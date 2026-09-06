@@ -22,6 +22,23 @@ const std::vector<std::unique_ptr<RenderNode>>& RenderNode::Children() const{
   return m_children;
 }
 
+void RenderNode::SortChildren(){
+  std::sort(
+    m_children.begin(), m_children.end(),
+    [](const auto& a, const auto& b){
+      return a->Order() < b->Order();
+    }
+  );
+}
+
+int32_t RenderNode::Order() const{
+  return m_order;
+}
+
+void RenderNode::SetOrder(int32_t o){
+  m_order = o;
+}
+
 uint32_t RenderNode::ID() const{
   return m_id;
 }

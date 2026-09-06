@@ -19,12 +19,19 @@ int Application::Run() {
   auto &root = m_context->Root();
   root.Initialize(nullptr, m_context.get());
 
+  auto &background = root.Add<Panel>();
+  background.Layout().SetPosition({0, 0});
+  background.Layout().SetSize({800, 1200});
+  background.SetColor({255, 255, 255});
+
   auto &panel = root.Add<Panel>();
   panel.Layout().SetPosition({0, 0});
   panel.Layout().SetSize({800, 300});
-  panel.SetColor({255, 255, 255});
+  panel.SetColor({0, 0, 128});
 
-  // root.Remove(panel);
+  background.SetOrder(1);
+  panel.SetOrder(2);
+
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();

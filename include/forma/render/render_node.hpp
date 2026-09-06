@@ -53,6 +53,11 @@ public:
 
   const std::vector<std::unique_ptr<RenderNode>>& Children() const;
 
+  void SortChildren();
+
+  int32_t Order() const;
+  void SetOrder(int32_t o);
+
   uint32_t ID() const;
   void SetID(uint32_t id);
 
@@ -63,6 +68,7 @@ private:
   void Initialize(RenderNode *parent);
 protected:
   uint32_t m_id{};
+  int32_t m_order{};
   RenderNode *m_parent{nullptr};
   std::vector<std::unique_ptr<RenderNode>> m_children;
   bool m_visible{true};
