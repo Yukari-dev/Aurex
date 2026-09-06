@@ -27,7 +27,7 @@ void Renderer::RenderNodeTree(RenderNode& node){
 
 void Renderer::DrawPanel(const Vec2& position, const Size& size, const Color& color){
   m_renderer.DrawRect(
-    position.ToGlm(), size.ToGlm(), color.ToGlm()
+    position.ToGlm(), size.ToGlm(), color.Normalize().ToGlm()
   );
 }
 

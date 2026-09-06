@@ -32,7 +32,7 @@ struct Color{
     };
   }
 
-  Color Normalize(){
+  Color Normalize() const{
     Color color = {r, g, b, a};
     return color / 255.0f;
   }
@@ -49,6 +49,11 @@ struct Padding{
 enum class PositionType{
   Absolute,
   Relative
+};
+
+enum class SizeType{
+  Fixed,
+  Fill,
 };
 
 }

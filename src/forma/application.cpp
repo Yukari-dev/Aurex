@@ -20,25 +20,30 @@ int Application::Run() {
   root.Initialize(nullptr, m_context.get());
 
   auto &background = root.Add<Panel>();
-  background.Layout().SetPosition({0, 0});
-  background.Layout().SetSize({800, 1200});
-  background.SetColor({255, 255, 255});
+  background.Layout()
+    .SetPosition({0, 0})
+    .SetSize({800, 1200});
+  background.SetColor({250, 250, 250});
 
-  auto &panel = root.Add<Panel>();
-  panel.Layout().SetPosition({300, 200});
-  panel.Layout().SetSize({200, 200});
-  panel.SetColor({0, 0, 0});
+  auto &panel = background.Add<Panel>();
+  panel.Layout()
+    .SetPosition({300, 200})
+    .SetSize({200, 200});
+  panel.SetColor({1, 1, 1});
 
-  auto &child = panel.Add<Panel>();
-  child.Layout().SetPosition({2, 2});
-  child.Layout().SetPositionType(PositionType::Relative);
-  child.Layout().SetSize({196, 196});
-  child.SetColor({255, 255, 255});
+  panel.SetOrder(5);
+
+  // auto &child = panel.Add<Panel>();
+  // child.Layout()
+  //   .SetPosition({2, 2})
+  //   .SetPositionType(PositionType::Relative)
+  //   .SetSizeType(SizeType::Fill);
+  // child.SetColor({128, 255, 255});
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
 
-    m_synchronizer->Sync(root, m_renderTree->Root());
+    m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Position(), root.Layout().Size());
 
     m_rhi->BeginFrame();
     m_graphicsRenderer->Begin();
