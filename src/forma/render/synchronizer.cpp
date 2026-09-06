@@ -2,10 +2,14 @@
 #include "forma/render/renderData/panel_render_data.hpp"
 #include "forma/render/renderNodes/panel_render_node.hpp"
 #include "forma/render/renderable.hpp"
+#include <algorithm>
+#include <unordered_set>
 
 namespace Forma{
 
 void Synchronizer::Sync(Component& root, RenderNode& parent){
+  std::unordered_set<uint32_t> seen;
+
   for(const auto& child : root.Children()){
     Component& comp = *child;
     RenderNode *currentParent = &parent;
@@ -22,11 +26,22 @@ void Synchronizer::Sync(Component& root, RenderNode& parent){
         node->position = panelData->position;
         node->size = panelData->size;
         node->color = panelData->color;
+        seen.insert(node->ID());
 
         currentParent = node;
       }
     }
     Sync(comp, *currentParent);
+  }
+  
+  std::vector<RenderNode*> toRemove;
+  for(auto& node : parent.Children()){
+    if (!seen.contains(node->ID()))
+      toRemove.push_back(node.get());
+  }
+
+  for(auto& node : toRemove){
+    parent.Remove(*node);
   }
 }
 

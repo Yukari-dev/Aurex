@@ -24,7 +24,7 @@ int Application::Run() {
   panel.Layout().SetSize({800, 300});
   panel.SetColor({255, 255, 255});
 
-  float x = 0.0f;
+  // root.Remove(panel);
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
