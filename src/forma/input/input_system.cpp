@@ -138,30 +138,25 @@ void InputSystem::SetMouseProperties(Vec2 pos){
   m_previousMousePosition = m_mousePosition;
 }
 
-void InputSystem::SetKeyboardKey(uint32_t scancode, int32_t action){
+void InputSystem::SetKeyboardKey(uint32_t key, uint32_t scancode, int32_t action){
   if(m_focusedID < 1) return;
-  if(action == GLFW_PRESS){
-    auto *comp = m_context.Find(m_focusedID);
-    auto *target = AsInterface<IKeyboardTarget>(comp);
+  auto *comp = m_context.Find(m_focusedID);
+  if(!comp) return;
+  auto *target = AsInterface<IKeyboardTarget>(comp);
 
-    if(target){
-      KeyEvent event{};
-      event.scancode = scancode;
-      event.character = glfwGetKeyName(GLFW_KEY_UNKNOWN, scancode)[0];
-      target->OnKeyDown(event);
-    }
-  }
-  if(action == GLFW_RELEASE){
-    auto *comp = m_context.Find(m_focusedID);
-    auto *target = AsInterface<IKeyboardTarget>(comp);
+  if(!target) return;
 
-    if(target){
-      KeyEvent event{};
-      event.scancode = scancode;
-      event.character = glfwGetKeyName(GLFW_KEY_UNKNOWN, scancode)[0];
-      target->OnKeyUp(event);
-    }
-  }
+  KeyEvent event{};
+  event.scancode = scancode;
+  event.key = key;
+  const char *keyName = glfwGetKeyName(GLFW_KEY_UNKNOWN, scancode);
+  event.character = keyName ? keyName[0] : '\0';
+  event.action = action;
+
+  if(action == GLFW_PRESS)
+    target->OnKeyDown(event);
+  else
+    target->OnKeyUp(event);
 }
 
 Vec2 InputSystem::MousePosition() const{
@@ -188,6 +183,23 @@ void InputSystem::SetFocus(Component *component){
     if(auto *focusable = AsInterface<IFocusable>(focusedComp))
       focusable->OnFocus();
   }
+}
+
+void InputSystem::SetTextInput(unsigned int codepoint){
+  if(m_focusedID < 1)
+    return;
+  
+  auto *comp = m_context.Find(m_focusedID);
+  if(!comp)
+    return;
+
+  auto *target = AsInterface<IKeyboardTarget>(comp);
+  if(!target)
+    return;
+
+  TextEvent event{};
+  event.codepoint = codepoint;
+  target->OnTextInput(event);
 }
 
 }

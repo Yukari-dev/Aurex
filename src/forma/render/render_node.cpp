@@ -18,6 +18,27 @@ void RenderNode::Remove(RenderNode& node){
   }
 }
 
+RenderNode& RenderNode::Add(std::unique_ptr<RenderNode> child){
+  child->Initialize(this);
+
+  RenderNode& ref = *child;
+  m_children.push_back(std::move(child));
+
+  return ref;
+}
+
+RenderNode *RenderNode::FindNode(uint32_t id){
+  auto it = std::find_if(
+    m_children.begin(), m_children.end(),
+    [&id](const auto& other){
+      return other->ID() == id;
+    }
+  );
+  if(it != m_children.end())
+    return it->get();
+  return nullptr;
+}
+
 const std::vector<std::unique_ptr<RenderNode>>& RenderNode::Children() const{
   return m_children;
 }

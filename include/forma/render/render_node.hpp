@@ -34,6 +34,8 @@ public:
     return ref;
   }
 
+  RenderNode& Add(std::unique_ptr<RenderNode> child);
+
   void Remove(RenderNode& node);
 
   template <typename T>
@@ -51,6 +53,8 @@ public:
       return dynamic_cast<T*>(it->get());
     return nullptr;
   }
+
+  RenderNode *FindNode(uint32_t id);
 
   const std::vector<std::unique_ptr<RenderNode>>& Children() const;
 
@@ -70,7 +74,9 @@ public:
 
   bool Visible() const;
   void SetVisibility(bool mode);
-
+  
+  Vec2 position{};
+  Size size{};
 private:
   void Initialize(RenderNode *parent);
 protected:

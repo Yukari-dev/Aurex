@@ -1,5 +1,6 @@
 #include "forma/application.hpp"
 #include "forma/component.hpp"
+#include "forma/components/label.hpp"
 #include "forma/components/panel.hpp"
 #include <cassert>
 
@@ -11,12 +12,14 @@ Application::Application() {
   m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
   m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouseMove(x, y); });
   m_rhi->SetMouseButtonCallback([this](int button, int actions, int mods) { this->OnMouseButton(button, actions, mods); });
-  m_rhi->SetKeyboardCallback([this](int key, int scancode, int actions, int mods) { this->OnKeyPressed(scancode, actions); });
+  m_rhi->SetKeyboardCallback([this](int key, int scancode, int actions, int mods) { this->OnKeyPressed(key, scancode, actions); });
+  m_rhi->SetCharCallback([this](unsigned int codepoint){ this->OnCharPressed(codepoint); });
   m_graphicsRenderer = std::make_unique<Renderer2D>(*m_rhi);
-  m_context = std::make_unique<UIContext>();
+  m_context = std::make_unique<UIContext>(*m_graphicsRenderer);
   m_renderTree = std::make_unique<RenderTree>();
   m_synchronizer = std::make_unique<Synchronizer>();
   m_renderer = std::make_unique<Renderer>(*m_graphicsRenderer);
+  m_renderer->SetDefaultFont("assets/fonts/JetBrainsMono-Regular.ttf");
   m_input = std::make_unique<InputSystem>(*m_context);
 }
 
@@ -28,48 +31,18 @@ int Application::Run() {
 
   background.Layout()
     .SetSizeType(SizeType::Fill);
-  background.SetColor({2});
+  background.SetColor({245});
 
-  background.Add<Panel>()
-    .SetColor({168, 213, 186})
+  background.Add<Label>()
+    .SetColor({1})
+    .SetText("Hello world")
+    .SetScale(1.0f)
     .Layout()
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::BottomRight)
-      .SetParentAnchor(Anchor::Center)
-      .SetSize({50, 200});
-
-  background.Add<Panel>()
-    .SetColor({255, 179, 186})
-    .Layout()
-      .SetPosition({10, 0})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::TopLeft)
-      .SetParentAnchor(Anchor::Center)
-      .SetSize({200, 50});
-
-  background.Add<Panel>()
-    .SetColor({229, 196, 208})
-    .Layout()
-      .SetPosition({0, 60})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::TopRight)
-      .SetParentAnchor(Anchor::Center)
-      .SetSize({200, 50});
-
-  background.Add<Panel>()
-    .SetColor({123, 128, 173})
-    .Layout()
-      .SetPosition({10, 60})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::TopLeft)
-      .SetParentAnchor(Anchor::Center)
-      .SetSize({50, 200});
-
+      .SetTextAlign(TextAlign::Center);
+  
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
-
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
-
     m_input->Update(*m_renderTree);
 
     m_rhi->BeginFrame();
@@ -118,8 +91,12 @@ void Application::OnMouseButton(int button, int actions, int mods){
   m_input->SetMouseButton(mouseButton, mouseAction);
 }
 
-void Application::OnKeyPressed(int scancode, int action){
-  m_input->SetKeyboardKey(scancode, action);
+void Application::OnKeyPressed(int key, int scancode, int action){
+  m_input->SetKeyboardKey(key, scancode, action);
+}
+
+void Application::OnCharPressed(unsigned int codepoint){
+  m_input->SetTextInput(codepoint);
 }
 
 }

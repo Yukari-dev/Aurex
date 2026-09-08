@@ -19,18 +19,12 @@ find_path(AXIOM_INCLUDE_DIR
 )
 
 file(GLOB_RECURSE PRAXIS_SOURCES
-  "src/forma/application.cpp"
-  "src/forma/ui_context.cpp"
-  "src/forma/component.cpp"
-  "src/forma/layout/layout.cpp"
-  "src/forma/layout/layout_resolver.cpp"
-  "src/forma/input/input_system.cpp"
-  "src/forma/components/panel.cpp"
-  "src/forma/render/render_node.cpp"
-  "src/forma/render/render_tree.cpp"
-  "src/forma/render/synchronizer.cpp"
-  "src/forma/render/renderer.cpp"
-  "src/forma/render/renderNodes/panel_render_node.cpp"
+  "src/forma/*.cpp"
+  "src/forma/layout/*.cpp"
+  "src/forma/input/*.cpp"
+  "src/forma/components/*.cpp"
+  "src/forma/render/*.cpp"
+  "src/forma/render/renderNodes/*.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})

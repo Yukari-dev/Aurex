@@ -1,7 +1,5 @@
 #include "forma/render/synchronizer.hpp"
 #include "forma/layout/layout_resolver.hpp"
-#include "forma/render/renderData/panel_render_data.hpp"
-#include "forma/render/renderNodes/panel_render_node.hpp"
 #include "forma/render/renderable.hpp"
 #include <unordered_set>
 
@@ -17,22 +15,22 @@ void Synchronizer::Sync(Component& root, RenderNode& parent, Rect parentRect){
     Vec2 position = LayoutResolver::ResolvePosition(comp.Layout(), parentRect, size);
     if (auto *renderable = dynamic_cast<IRenderable*>(&comp)){
       auto data = renderable->RenderData();
-      if(auto *panelData = AsData<PanelRenderData>(data.get())){
-        auto *node = parent.Find<PanelRenderNode>(comp.ID());
 
-        if(!node){
-          node = &parent.Add<PanelRenderNode>();
-          node->SetID(comp.ID());
-        }
+      auto *node = parent.FindNode(comp.ID());
 
-        node->position = position;
-        node->size = size;
-        node->color = panelData->color;
-        node->SetOrder(panelData->order);
-        seen.insert(node->ID());
-
-        currentParent = node;
+      if(!node){
+        auto newNode = data->CreateNode();
+        newNode->SetID(comp.ID());
+        node = &parent.Add(std::move(newNode));
       }
+
+      node->position = position;
+      node->size = size;
+      data->UpdateNode(*node);
+
+      seen.insert(node->ID());
+
+      currentParent = node;
     }
     Sync(comp, *currentParent, Rect{position, size});
   }

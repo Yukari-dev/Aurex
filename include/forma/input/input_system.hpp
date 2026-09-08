@@ -15,6 +15,10 @@ struct MouseCapture{
   bool dragging{false};
 };
 
+struct TextEvent{
+  uint32_t codepoint{};
+};
+
 class InputSystem{
 public:
   InputSystem(UIContext& context);
@@ -27,7 +31,8 @@ public:
   void SetMouseButton(MouseButton button, MouseAction actions);
 
   void SetFocus(Component *component);
-  void SetKeyboardKey(uint32_t scancode, int32_t action);
+  void SetKeyboardKey(uint32_t key, uint32_t scancode, int32_t action);
+  void SetTextInput(unsigned int codepoint);
 
   template <typename T>
   T *AsInterface(Component* val){

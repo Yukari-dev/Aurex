@@ -1,7 +1,5 @@
 #include "forma/components/panel.hpp"
 #include "forma/render/renderData/panel_render_data.hpp"
-#include <algorithm>
-#include <iostream>
 
 namespace Forma{
 
@@ -24,18 +22,6 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   data->order = m_order;
 
   return data;
-}
-
-void Panel::OnFocus(){
-  m_color = m_defaultColor - 150;
-}
-
-void Panel::OnBlur(){
-  m_color = m_defaultColor;
-}
-
-void Panel::OnKeyDown(KeyEvent &event){
-  std::cout << "key pressed: " << event.character << '\n';
 }
 
 Panel& Panel::SetColor(Forma::Color color){

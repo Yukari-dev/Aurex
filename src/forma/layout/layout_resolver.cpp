@@ -1,10 +1,13 @@
 #include "forma/layout/layout_resolver.hpp"
+#include <iostream>
 
 namespace Forma{
 
 Vec2 LayoutResolver::ResolvePosition(const Layout& layout, const Rect& parentRect, const Size& childSize){
   if(layout.HasAnchor())
     return ResolveAnchor(layout, parentRect, childSize);
+  if(layout.HasTextAlign())
+    return ResolveTextAlign(layout, parentRect, childSize);
 
   return ResolvePositionType(layout, parentRect.Position());
 }
@@ -38,6 +41,22 @@ Size LayoutResolver::ResolveSize(const Layout& layout, Size parentSize){
       return parentSize * layout.Size();
   }
   return layout.Size();
+}
+
+Vec2 LayoutResolver::ResolveTextAlign(const Layout& layout, Rect parentRect, Size childSize){
+  switch(layout.TextAlign()){
+    case TextAlign::Left:
+      return layout.Position();
+    case TextAlign::Center:
+      return {
+        layout.Position().x + (parentRect.Size().width - childSize.width) / 2.0f,
+        layout.Position().y + (parentRect.Size().height - childSize.height) / 2.0f
+      };
+    case TextAlign::Right:
+      return {parentRect.Size().width - childSize.width, layout.Position().y};
+    default:
+      return layout.Position();
+  }
 }
 
 Vec2 LayoutResolver::GetAnchorPoint(Anchor anchor, const Rect& rect){

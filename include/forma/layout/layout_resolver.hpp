@@ -12,6 +12,7 @@ private:
   static Vec2 GetAnchorPoint(Anchor anchor, const Rect& rect);
   static Vec2 ResolvePositionType(const Layout& layout, Vec2 parentPosition);
   static Vec2 ResolveAnchor(const Layout& layout, Rect parentRect, Size childSize);
+  static Vec2 ResolveTextAlign(const Layout& layout, Rect parentRect, Size childSize);
 };
 
 }

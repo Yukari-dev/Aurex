@@ -32,6 +32,11 @@ Layout& Layout::SetSizeType(Forma::SizeType sizeType){
   return *this;
 }
 
+Layout& Layout::SetTextAlign(Forma::TextAlign align){
+  m_textAlign = align;
+  return *this;
+}
+
 Vec2 Layout::Position() const{
   return m_position;
 }
@@ -60,8 +65,16 @@ Forma::Rect Layout::Rect() const{
   return Forma::Rect{m_position, m_size};
 }
 
+Forma::TextAlign Layout::TextAlign() const{
+  return m_textAlign;
+}
+
 bool Layout::HasAnchor() const{
   return m_positionType == PositionType::Anchor;
+}
+
+bool Layout::HasTextAlign() const {
+  return m_textAlign != TextAlign::None;
 }
 
 }

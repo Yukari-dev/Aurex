@@ -21,7 +21,8 @@ private:
   void OnResize(int width, int heigh5);
   void OnMouseMove(double x, double y);
   void OnMouseButton(int button, int actions, int mods);
-  void OnKeyPressed(int scancode, int action);
+  void OnKeyPressed(int key, int scancode, int action);
+  void OnCharPressed(unsigned int codepoint);
 private:
   Size m_viewportSize{};
   std::unique_ptr<Window> m_window{nullptr};

@@ -6,6 +6,10 @@ namespace Forma{
 struct Vec2{
   float x, y;
 
+  Vec2() : x(0), y(0) {}
+  Vec2(float x, float y) : x(x), y(y) {}
+  Vec2(glm::vec2 v) : x(v.x), y(v.y) {}
+
   Vec2 operator+(const Vec2& other){
     return {x + other.x, y + other.y};
   }
@@ -21,6 +25,10 @@ struct Vec2{
 
 struct Size{
   float width, height;
+
+  Size() : width(0), height(0) {}
+  Size(float width, float height) : width(width), height(height) {}
+  Size(glm::vec2 v) : width(v.x), height(v.y) {}
 
   Size operator*(float s){
     return {width * s, height * s};
@@ -120,6 +128,10 @@ enum class SizeType{
   Fixed,
   Fill,
   Percent
+};
+
+enum class TextAlign{
+  None, Left, Center, Right
 };
 
 }

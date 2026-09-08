@@ -3,7 +3,7 @@
 
 namespace Forma{
 
-UIContext::UIContext() : m_root(std::make_unique<Component>()){
+UIContext::UIContext(Axiom::Renderer2D& renderer) : m_renderer(renderer), m_root(std::make_unique<Component>()){
 
 }
 
@@ -19,6 +19,10 @@ uint32_t UIContext::GetID(){
 
 Component *UIContext::Find(uint32_t id){
   return m_root->Find(id);
+}
+
+Axiom::Renderer2D& UIContext::Renderer2D() const{
+  return m_renderer;
 }
 
 }
