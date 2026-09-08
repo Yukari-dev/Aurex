@@ -27,55 +27,42 @@ int Application::Run() {
 
   background.Layout()
     .SetSizeType(SizeType::Fill);
-  background.SetColor({250, 250, 250});
+  background.SetColor({2});
 
-  auto &panel = background.Add<Panel>();
-  panel.Layout()
-    .SetPositionType(PositionType::Anchor)
-    .SetAnchor(Anchor::Center)
-    .SetParentAnchor(Anchor::Center)
-    .SetSize({200, 200});
-  panel.SetColor({1});
-
-  panel.SetOrder(5);
-
-  panel.Add<Panel>()
-    .SetColor({128, 255, 255})
+  background.Add<Panel>()
+    .SetColor({168, 213, 186})
     .Layout()
-    .SetPosition({2, 2})
-    .SetPositionType(PositionType::Anchor)
-    .SetSizeType(SizeType::Percent)
-    .SetSize({0.485f, 0.485f});
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::BottomRight)
+      .SetParentAnchor(Anchor::Center)
+      .SetSize({50, 200});
 
-  panel.Add<Panel>()
-    .SetColor({255, 128, 255})
+  background.Add<Panel>()
+    .SetColor({255, 179, 186})
     .Layout()
-    .SetPosition({-2, 2})
-    .SetPositionType(PositionType::Anchor)
-    .SetAnchor(Anchor::TopRight)
-    .SetParentAnchor(Anchor::TopRight)
-    .SetSizeType(SizeType::Percent)
-    .SetSize({0.485f, 0.485f});
+      .SetPosition({10, 0})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::TopLeft)
+      .SetParentAnchor(Anchor::Center)
+      .SetSize({200, 50});
 
-  panel.Add<Panel>()
-    .SetColor({255, 255, 128})
+  background.Add<Panel>()
+    .SetColor({229, 196, 208})
     .Layout()
-    .SetPosition({2, -2})
-    .SetPositionType(PositionType::Anchor)
-    .SetAnchor(Anchor::BottomLeft)
-    .SetParentAnchor(Anchor::BottomLeft)
-    .SetSizeType(SizeType::Percent)
-    .SetSize({0.485f, 0.485f});
+      .SetPosition({0, 60})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::TopRight)
+      .SetParentAnchor(Anchor::Center)
+      .SetSize({200, 50});
 
-  panel.Add<Panel>()
-    .SetColor({250})
+  background.Add<Panel>()
+    .SetColor({123, 128, 173})
     .Layout()
-    .SetPosition({-2, -2})
-    .SetPositionType(PositionType::Anchor)
-    .SetAnchor(Anchor::BottomRight)
-    .SetParentAnchor(Anchor::BottomRight)
-    .SetSizeType(SizeType::Percent)
-    .SetSize({0.485f, 0.485f});
+      .SetPosition({10, 60})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::TopLeft)
+      .SetParentAnchor(Anchor::Center)
+      .SetSize({50, 200});
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
@@ -105,7 +92,7 @@ void Application::OnResize(int width, int height){
 }
 
 void Application::OnMouseMove(double x, double y){
-  m_input->SetMousePosition({static_cast<float>(x), static_cast<float>(y)});
+  m_input->SetMouseProperties({static_cast<float>(x), static_cast<float>(y)});
 }
 
 void Application::OnMouseButton(int button, int actions, int mods){

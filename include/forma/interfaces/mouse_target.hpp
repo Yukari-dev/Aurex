@@ -16,6 +16,7 @@ enum class MouseAction{
 
 struct MouseEvent{
   Vec2 position{};
+  Vec2 delta{};
   MouseButton button{};
   MouseAction action{};
 };
@@ -29,6 +30,11 @@ public:
   virtual void OnMouseMove(MouseEvent& event) {}
   virtual void OnMouseEnter(MouseEvent& event) {}
   virtual void OnMouseLeave(MouseEvent& event) {}
+  virtual void OnClick(MouseEvent& event) {}
+
+  virtual void OnDragStart(MouseEvent& event) {}
+  virtual void OnDragMove(MouseEvent& event) {}
+  virtual void OnDragEnd(MouseEvent& event) {}
 };
 
 }

@@ -8,19 +8,31 @@
 
 namespace Forma{
 
+struct MouseCapture{
+  uint32_t id{};
+  Vec2 startPosition{};
+  Vec2 lastPosition{};
+  bool dragging{false};
+};
+
 class InputSystem{
 public:
   InputSystem(UIContext& context);
   void Update(RenderTree& tree);
 
-  void SetMousePosition(Vec2 pos);
+  void SetMouseProperties(Vec2 pos);
   Vec2 MousePosition() const;
+  Vec2 MouseDelta() const;
 
   void SetMouseButton(MouseButton button, MouseAction actions);
 private:
   Vec2 m_mousePosition{};
+  Vec2 m_previousMousePosition{};
+  Vec2 m_mouseDelta{};
   RenderNode *m_hoveredNode{nullptr};
+  RenderNode *m_draggedNode{nullptr};
   std::unordered_map<MouseButton, uint32_t> m_pressedNodes;
+  std::unordered_map<MouseButton, MouseCapture> m_captures;
   UIContext& m_context;
 };
 

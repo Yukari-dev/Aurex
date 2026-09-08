@@ -13,12 +13,9 @@ public:
 
   std::unique_ptr<Forma::RenderData> RenderData() const override;
 
-  void OnMouseEnter(MouseEvent& event) override;
-  void OnMouseLeave(MouseEvent& event) override;
-  void OnMouseMove(MouseEvent& event) override;
-  void OnMouseDown(MouseEvent& event) override;
-  void OnMouseUp(MouseEvent& event) override;
-
+  void OnDragStart(MouseEvent& event) override;
+  void OnDragEnd(MouseEvent& event) override;
+  
   Panel& SetColor(Color color);
   Forma::Color Color() const;
 private:

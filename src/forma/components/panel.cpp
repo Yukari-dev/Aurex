@@ -26,24 +26,12 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   return data;
 }
 
-void Panel::OnMouseEnter(MouseEvent& event){
-
+void Panel::OnDragStart(MouseEvent& event){
+  std::cout << "Drag started\n";
 }
 
-void Panel::OnMouseLeave(MouseEvent& event) {
-
-}
-
-void Panel::OnMouseMove(MouseEvent& event) {
-
-}
-
-void Panel::OnMouseDown(MouseEvent& event){
-  m_color = m_color - 150.0f;
-}
-
-void Panel::OnMouseUp(MouseEvent& event){
-  m_color = m_defaultColor;
+void Panel::OnDragEnd(MouseEvent& event){
+  std::cout << "Drag ended\n";
 }
 
 Panel& Panel::SetColor(Forma::Color color){

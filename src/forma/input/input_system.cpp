@@ -39,6 +39,32 @@ void InputSystem::Update(RenderTree& tree){
       target->OnMouseMove(event);
     }
   }
+
+  for(auto& [button, capture] : m_captures){
+    if(!capture.id) continue;
+    Vec2 delta = m_mousePosition - capture.lastPosition;
+
+    float dx = m_mousePosition.x - capture.startPosition.x;
+    float dy = m_mousePosition.y - capture.startPosition.y;
+
+    float distanceSquared = dx * dx + dy * dy;
+
+    auto *target = dynamic_cast<IMouseTarget*>(m_context.Find(hit->ID()));
+    if(!target) continue;
+
+    MouseEvent event{};
+    event.position = m_mousePosition;
+    event.button = button;
+    event.delta = delta;
+
+    if(!capture.dragging && distanceSquared > 9.0f){
+      capture.dragging = true;
+      target->OnDragStart(event);
+    }
+
+    if(capture.dragging)
+      target->OnDragMove(event);
+  }
 }
 
 void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
@@ -55,6 +81,13 @@ void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
       event.position = m_mousePosition;
       event.button = button;
       event.action = action;
+
+      MouseCapture capture{};
+      capture.id = comp->ID();
+      capture.startPosition = m_mousePosition;
+      capture.lastPosition = m_mousePosition;
+      capture.dragging = false;
+      m_captures[button] = capture;
 
       target->OnMouseDown(event);
     }
@@ -73,18 +106,35 @@ void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
       event.position = m_mousePosition;
       event.button = button;
       event.action = action;
+      event.delta = m_mouseDelta;
+      
+      auto cIt = m_captures.find(button);
+      if(cIt != m_captures.end() && cIt->second.dragging)
+        target->OnDragEnd(event);
 
       target->OnMouseUp(event);
+
+      if(m_hoveredNode && m_hoveredNode->ID() == pressedNode->ID())
+        target->OnClick(event);
+
+      m_captures.erase(cIt);
     }
+    m_pressedNodes.erase(it);
   }
 }
 
-void InputSystem::SetMousePosition(Vec2 pos){
+void InputSystem::SetMouseProperties(Vec2 pos){
   m_mousePosition = pos;
+  m_mouseDelta = m_mousePosition - m_previousMousePosition;
+  m_previousMousePosition = m_mousePosition;
 }
 
 Vec2 InputSystem::MousePosition() const{
   return m_mousePosition;
+}
+
+Vec2 InputSystem::MouseDelta() const{
+  return m_mouseDelta;
 }
 
 }
