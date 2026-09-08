@@ -1,4 +1,5 @@
 #pragma once
+#include "forma/components/label.hpp"
 #include "forma/interfaces/focusable.hpp"
 #include "forma/interfaces/keyboard_target.hpp"
 #include "forma/interfaces/mouse_target.hpp"
@@ -13,6 +14,8 @@ class TextInput : public Component, public IRenderable, public IMouseTarget, pub
 public:
   TextInput();
   TextInput(Vec2 position, Size size, Color color);
+
+  void OnInitialize() override;
   
   std::unique_ptr<Forma::RenderData> RenderData() const override;
 
@@ -24,9 +27,10 @@ public:
 
   TextInput& SetTextScale(float scale);
   float TextScale() const;
+
+  const std::string& Text() const;
 private:
-  std::string m_text{};
-  float m_textScale{1.0f};
+  Label* m_label{nullptr};
   size_t m_cursorPosition{};
   Forma::Color m_color{};
   Forma::Color m_defaultColor{};

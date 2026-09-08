@@ -2,6 +2,7 @@
 #include "forma/component.hpp"
 #include "forma/components/label.hpp"
 #include "forma/components/panel.hpp"
+#include "forma/components/text_input.hpp"
 #include <cassert>
 
 namespace Forma {
@@ -31,15 +32,23 @@ int Application::Run() {
 
   background.Layout()
     .SetSizeType(SizeType::Fill);
-  background.SetColor({245});
+  background.SetColor({1});
 
-  background.Add<Label>()
-    .SetColor({1})
-    .SetText("Hello world")
-    .SetScale(1.0f)
+  // background.Add<Label>()
+  //   .SetColor({1})
+  //   .SetText("Hello world")
+  //   .SetScale(1.0f)
+  //   .Layout()
+  //     .SetTextAlign(TextAlign::Center);
+
+  background.Add<TextInput>()
+    .SetColor({15})
     .Layout()
-      .SetTextAlign(TextAlign::Center);
-  
+      .SetSize({200, 50})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::Center)
+      .SetParentAnchor(Anchor::Center);
+
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());

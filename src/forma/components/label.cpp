@@ -30,6 +30,21 @@ Label& Label::SetText(const std::string& text){
   return *this;
 }
 
+Label& Label::AddText(const std::string& text, size_t pos){
+  m_text.insert(pos, text);
+  return *this;
+}
+
+Label& Label::AddText(char c, size_t pos){
+  m_text.insert(pos, 1, c);
+  return *this;
+}
+
+Label& Label::RemoveChar(size_t pos){
+  m_text.erase(pos - 1, 1);
+  return *this;
+}
+
 const std::string& Label::Text() const{
   return m_text;
 }

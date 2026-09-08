@@ -168,7 +168,10 @@ Vec2 InputSystem::MouseDelta() const{
 }
 
 void InputSystem::SetFocus(Component *component){
-  if(component->ID() == m_focusedID) return;
+  uint32_t newID = component ? component->ID() : 0;
+
+  if(newID == m_focusedID)
+    return;
 
   Component *comp = m_context.Find(m_focusedID);
   if(comp){
@@ -176,19 +179,19 @@ void InputSystem::SetFocus(Component *component){
       focusable->OnBlur();
   }
 
-  m_focusedID = component->ID();
+  m_focusedID = newID;
 
-  Component *focusedComp = m_context.Find(m_focusedID);
-  if(focusedComp){
-    if(auto *focusable = AsInterface<IFocusable>(focusedComp))
-      focusable->OnFocus();
-  }
+  if(!component)
+    return;
+
+  if(auto *focusable = AsInterface<IFocusable>(component))
+    focusable->OnFocus();
 }
 
 void InputSystem::SetTextInput(unsigned int codepoint){
   if(m_focusedID < 1)
     return;
-  
+
   auto *comp = m_context.Find(m_focusedID);
   if(!comp)
     return;

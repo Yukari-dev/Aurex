@@ -12,6 +12,9 @@ public:
   std::unique_ptr<Forma::RenderData> RenderData() const override;
 
   Label& SetText(const std::string& text);
+  Label& AddText(const std::string& text, size_t pos = 0);
+  Label& AddText(char c, size_t pos = 0);
+  Label& RemoveChar(size_t pos);
   const std::string& Text() const;
 
   Label& SetScale(float scale);

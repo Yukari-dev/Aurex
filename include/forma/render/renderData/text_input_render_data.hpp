@@ -13,12 +13,14 @@ public:
   }
 
   void UpdateNode(RenderNode& node) const override{
-    auto& panel = static_cast<TextInputRenderNode&>(node);
+    auto& textInput = static_cast<TextInputRenderNode&>(node);
 
-    panel.position = node.position;
-    panel.size = node.size;
-    panel.color = color;
-    panel.SetOrder(order);
+    textInput.position = node.position;
+    textInput.size = node.size;
+    textInput.color = color;
+    textInput.text = text;
+    textInput.scale = scale;
+    textInput.SetOrder(order);
   }
 
   Vec2 position{};

@@ -35,6 +35,13 @@ void Component::SetOrder(int32_t o){
   m_order = o;
 }
 
+void Component::Initialize(Component* parent, UIContext* context) {
+  m_parent = parent;
+  m_context = context;
+  m_id = m_context->GetID();
+  OnInitialize();
+}
+
 void Component::Remove(Component& component){
   if(&component == this || &component == m_parent)
     return;
@@ -57,12 +64,6 @@ Component *Component::Find(uint32_t id){
       return found;
   }
   return nullptr;
-}
-
-void Component::Initialize(Component *parent, UIContext* context){
-  m_parent = parent;
-  m_context = context;
-   m_id = m_context->GetID();
 }
 
 }

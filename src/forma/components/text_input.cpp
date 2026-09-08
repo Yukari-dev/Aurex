@@ -2,6 +2,7 @@
 #include "forma/render/renderData/text_input_render_data.hpp"
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <string>
 
 namespace Forma{
 
@@ -13,13 +14,21 @@ TextInput::TextInput(Vec2 position, Size size, Forma::Color color) {
   SetColor(color);
 }
 
+void TextInput::OnInitialize() {
+  m_label = &Add<Label>();
+  m_label->SetOrder(2);
+  m_label->SetColor({255});
+  m_label->Layout().SetPositionType(PositionType::Anchor);
+  m_label->Layout().SetAnchor(Anchor::Center).SetTextAlign(TextAlign::Center);
+}
+
 void TextInput::OnKeyDown(KeyEvent& event){
   if(event.action != GLFW_PRESS) return;
 
   switch(event.key){
     case GLFW_KEY_BACKSPACE:
       if(m_cursorPosition > 0){
-        m_text.erase(m_cursorPosition - 1, 1);
+        m_label->RemoveChar(m_cursorPosition - 1);
         --m_cursorPosition;
       }
       break;
@@ -30,7 +39,7 @@ void TextInput::OnKeyDown(KeyEvent& event){
       break;
 
     case GLFW_KEY_RIGHT:
-      if(m_cursorPosition < m_text.size())
+      if(m_cursorPosition < m_label->Text().size())
         ++m_cursorPosition;
       break;
   }
@@ -38,7 +47,7 @@ void TextInput::OnKeyDown(KeyEvent& event){
 
 void TextInput::OnTextInput(TextEvent& event){
   char c = static_cast<char>(event.codepoint);
-  m_text.insert(m_cursorPosition, 1, c);
+  m_label->AddText(c, m_cursorPosition);
   ++m_cursorPosition;
 }
 
@@ -49,8 +58,8 @@ std::unique_ptr<Forma::RenderData> TextInput::RenderData() const{
   data->size = Layout().Size();
   data->color = Color();
   data->order = m_order;
-  data->text = m_text;
-  data->scale = m_textScale;
+  data->text = m_label->Text();
+  data->scale = m_label->Scale();
   data->cursorPosition = m_cursorPosition;
 
   return data;
@@ -67,12 +76,16 @@ Forma::Color TextInput::Color() const{
 }
 
 TextInput& TextInput::SetTextScale(float scale){
-  m_textScale = scale;
+  m_label->SetScale(scale);
   return *this;
 }
 
 float TextInput::TextScale() const{
-  return m_textScale;
+  return m_label->Scale();
+}
+
+const std::string& TextInput::Text() const{
+  return m_label->Text();
 }
 
 }
