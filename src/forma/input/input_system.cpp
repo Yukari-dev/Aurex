@@ -1,6 +1,9 @@
 #include "forma/input/input_system.hpp"
 #include "forma/component.hpp"
+#include "forma/interfaces/focusable.hpp"
+#include "forma/interfaces/keyboard_target.hpp"
 #include "forma/interfaces/mouse_target.hpp"
+#include <GLFW/glfw3.h>
 
 namespace Forma{
 
@@ -12,7 +15,7 @@ void InputSystem::Update(RenderTree& tree){
   if(hit != m_hoveredNode){
     if(m_hoveredNode){
       auto *comp = m_context.Find(m_hoveredNode->ID());
-      if(auto *target = dynamic_cast<IMouseTarget*>(comp)){
+      if(auto *target = AsInterface<IMouseTarget>(comp)){
         MouseEvent event{};
         event.position = m_mousePosition;
         target->OnMouseLeave(event);
@@ -21,7 +24,7 @@ void InputSystem::Update(RenderTree& tree){
 
     if(hit){
       auto *comp = m_context.Find(hit->ID());
-      if(auto *target = dynamic_cast<IMouseTarget*>(comp)){
+      if(auto *target = AsInterface<IMouseTarget>(comp)){
         MouseEvent event{};
         event.position = m_mousePosition;
         target->OnMouseEnter(event);
@@ -33,7 +36,7 @@ void InputSystem::Update(RenderTree& tree){
 
   if(hit){
     auto *comp = m_context.Find(hit->ID());
-    if(auto *target = dynamic_cast<IMouseTarget*>(comp)){
+    if(auto *target = AsInterface<IMouseTarget>(comp)){
       MouseEvent event{};
       event.position = m_mousePosition;
       target->OnMouseMove(event);
@@ -49,7 +52,7 @@ void InputSystem::Update(RenderTree& tree){
 
     float distanceSquared = dx * dx + dy * dy;
 
-    auto *target = dynamic_cast<IMouseTarget*>(m_context.Find(hit->ID()));
+    auto *target = AsInterface<IMouseTarget>(m_context.Find(hit->ID()));
     if(!target) continue;
 
     MouseEvent event{};
@@ -71,12 +74,20 @@ void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
   if(action == MouseAction::Press){
     if(!m_hoveredNode) return;
 
-    m_pressedNodes[button] = m_hoveredNode->ID();
+    uint32_t id = m_hoveredNode->ID();
 
-    auto *comp = m_context.Find(m_hoveredNode->ID());
-    auto *target = dynamic_cast<IMouseTarget*>(comp);
+    if(auto *component = m_context.Find(id)){
+      if(auto *focusable = AsInterface<IFocusable>(component))
+        SetFocus(component);
+      else
+        SetFocus(0);
+    }
 
-    if(target){
+    m_pressedNodes[button] = id;
+
+    auto *comp = m_context.Find(id);
+
+    if(auto *target = AsInterface<IMouseTarget>(comp)){
       MouseEvent event{};
       event.position = m_mousePosition;
       event.button = button;
@@ -91,7 +102,6 @@ void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
 
       target->OnMouseDown(event);
     }
-
     return;
   }
 
@@ -99,9 +109,8 @@ void InputSystem::SetMouseButton(MouseButton button, MouseAction action){
     auto it = m_pressedNodes.find(button);
     if(it == m_pressedNodes.end()) return;
     auto *pressedNode = m_context.Find(it->second);
-    auto *target = dynamic_cast<IMouseTarget*>(pressedNode);
 
-    if(target){
+    if(auto *target = AsInterface<IMouseTarget>(pressedNode)){
       MouseEvent event{};
       event.position = m_mousePosition;
       event.button = button;
@@ -129,12 +138,56 @@ void InputSystem::SetMouseProperties(Vec2 pos){
   m_previousMousePosition = m_mousePosition;
 }
 
+void InputSystem::SetKeyboardKey(uint32_t scancode, int32_t action){
+  if(m_focusedID < 1) return;
+  if(action == GLFW_PRESS){
+    auto *comp = m_context.Find(m_focusedID);
+    auto *target = AsInterface<IKeyboardTarget>(comp);
+
+    if(target){
+      KeyEvent event{};
+      event.scancode = scancode;
+      event.character = glfwGetKeyName(GLFW_KEY_UNKNOWN, scancode)[0];
+      target->OnKeyDown(event);
+    }
+  }
+  if(action == GLFW_RELEASE){
+    auto *comp = m_context.Find(m_focusedID);
+    auto *target = AsInterface<IKeyboardTarget>(comp);
+
+    if(target){
+      KeyEvent event{};
+      event.scancode = scancode;
+      event.character = glfwGetKeyName(GLFW_KEY_UNKNOWN, scancode)[0];
+      target->OnKeyUp(event);
+    }
+  }
+}
+
 Vec2 InputSystem::MousePosition() const{
   return m_mousePosition;
 }
 
 Vec2 InputSystem::MouseDelta() const{
   return m_mouseDelta;
+}
+
+void InputSystem::SetFocus(Component *component){
+  if(component->ID() == m_focusedID) return;
+
+  Component *comp = m_context.Find(m_focusedID);
+  if(comp){
+    if(auto *focusable = AsInterface<IFocusable>(comp))
+      focusable->OnBlur();
+  }
+
+  m_focusedID = component->ID();
+
+  Component *focusedComp = m_context.Find(m_focusedID);
+  if(focusedComp){
+    if(auto *focusable = AsInterface<IFocusable>(focusedComp))
+      focusable->OnFocus();
+  }
 }
 
 }

@@ -11,6 +11,7 @@ Application::Application() {
   m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
   m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouseMove(x, y); });
   m_rhi->SetMouseButtonCallback([this](int button, int actions, int mods) { this->OnMouseButton(button, actions, mods); });
+  m_rhi->SetKeyboardCallback([this](int key, int scancode, int actions, int mods) { this->OnKeyPressed(scancode, actions); });
   m_graphicsRenderer = std::make_unique<Renderer2D>(*m_rhi);
   m_context = std::make_unique<UIContext>();
   m_renderTree = std::make_unique<RenderTree>();
@@ -115,6 +116,10 @@ void Application::OnMouseButton(int button, int actions, int mods){
   }
 
   m_input->SetMouseButton(mouseButton, mouseAction);
+}
+
+void Application::OnKeyPressed(int scancode, int action){
+  m_input->SetKeyboardKey(scancode, action);
 }
 
 }
