@@ -1,7 +1,6 @@
 #include "forma/components/text_input.hpp"
 #include "forma/render/renderData/text_input_render_data.hpp"
 #include <GLFW/glfw3.h>
-#include <iostream>
 #include <string>
 
 namespace Forma{
@@ -18,6 +17,7 @@ void TextInput::OnInitialize() {
   m_label = &Add<Label>();
   m_label->SetOrder(2);
   m_label->SetColor({255});
+  m_label->SetScale(0.5f);
   m_label->Layout().SetPositionType(PositionType::Anchor);
   m_label->Layout().SetAnchor(Anchor::Center).SetTextAlign(TextAlign::Center);
 }

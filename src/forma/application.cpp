@@ -1,5 +1,6 @@
 #include "forma/application.hpp"
 #include "forma/component.hpp"
+#include "forma/components/button.hpp"
 #include "forma/components/label.hpp"
 #include "forma/components/panel.hpp"
 #include "forma/components/text_input.hpp"
@@ -34,20 +35,38 @@ int Application::Run() {
     .SetSizeType(SizeType::Fill);
   background.SetColor({1});
 
+  auto& button = background.Add<Button>();
+  button.Layout()
+      .SetSize({100, 60})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::Center)
+      .SetParentAnchor(Anchor::Center);
+
+  button.SetDefaultColor({230})
+    .SetHoverColor({255})
+    .SetPressedColor({1});
+
+  bool toggled{false};
+  auto buttonCallback = [&](MouseEvent& event){
+    toggled = !toggled;
+    if(toggled){
+      background.SetColor({240});
+      button.SetDefaultColor({5});
+    } else{
+      background.SetColor({1});
+      button.SetDefaultColor({230});
+    }
+  };
+  
+  button.SetOnClick(buttonCallback);
+
+
   // background.Add<Label>()
   //   .SetColor({1})
   //   .SetText("Hello world")
   //   .SetScale(1.0f)
   //   .Layout()
   //     .SetTextAlign(TextAlign::Center);
-
-  background.Add<TextInput>()
-    .SetColor({15})
-    .Layout()
-      .SetSize({200, 50})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::Center)
-      .SetParentAnchor(Anchor::Center);
 
   while (!m_window->ShouldClose()) {
     m_window->PollEvents();

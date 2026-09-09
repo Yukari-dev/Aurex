@@ -1,6 +1,5 @@
 #include "forma/render/renderNodes/text_input_render_node.hpp"
 #include "forma/render/renderer.hpp"
-#include <cstdio>
 
 namespace Forma{
 
