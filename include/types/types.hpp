@@ -84,6 +84,7 @@ struct Color{
   Color(float r, float g, float b) : r(r), g(g), b(b), a(255) {}
   Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
   Color(float s) : r(s), g(s), b(s), a(255) {}
+  Color(glm::vec3 v) : r(v.r), g(v.g), b(v.b), a(255) {}
   Color() {}
 
   Color operator-(float scalar){

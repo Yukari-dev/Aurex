@@ -1,10 +1,15 @@
 #include "forma/components/button.hpp"
 #include "forma/render/renderData/button_render_data.hpp"
-#include <cstdio>
 
 namespace Forma{
 
 Button::Button() {}
+
+void Button::OnUpdate(float dt){
+  m_animation.Update(dt);
+  if(m_animation.IsRunning())
+    m_color = m_animation.Value();
+}
 
 std::unique_ptr<Forma::RenderData> Button::RenderData() const{
   auto data = std::make_unique<ButtonRenderData>();
@@ -63,8 +68,13 @@ void Button::OnMouseUp(MouseEvent&) {
 }
 
 void Button::OnClick(MouseEvent& event){
-  if(m_onClick)
+  if(m_onClick){
     m_onClick(event);
+  }
+}
+
+void Button::AnimateColor(Forma::Color color, float duration, EaseType eastType){
+  m_animation.Start(m_color.ToGlm(), color.ToGlm(), duration, eastType);
 }
 
 }

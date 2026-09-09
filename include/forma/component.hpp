@@ -11,7 +11,10 @@ class Component{
 public:
   explicit Component();
   virtual ~Component() = default;
+
   virtual void OnInitialize() {}
+  virtual void OnUpdate(float dt) {}
+  void Update(float dt);
 
   const Forma::Layout& Layout() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;

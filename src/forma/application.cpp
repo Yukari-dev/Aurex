@@ -1,10 +1,10 @@
 #include "forma/application.hpp"
+#include "forma/animation/animation.hpp"
 #include "forma/component.hpp"
 #include "forma/components/button.hpp"
-#include "forma/components/label.hpp"
 #include "forma/components/panel.hpp"
-#include "forma/components/text_input.hpp"
 #include <cassert>
+#include <iostream>
 
 namespace Forma {
 
@@ -42,34 +42,19 @@ int Application::Run() {
       .SetAnchor(Anchor::Center)
       .SetParentAnchor(Anchor::Center);
 
-  button.SetDefaultColor({230})
-    .SetHoverColor({255})
-    .SetPressedColor({1});
+  button.SetDefaultColor({15})
+    .SetHoverColor({30})
+    .SetPressedColor({1})
+    .AnimateColor({240}, 10.0f);
 
-  bool toggled{false};
-  auto buttonCallback = [&](MouseEvent& event){
-    toggled = !toggled;
-    if(toggled){
-      background.SetColor({240});
-      button.SetDefaultColor({5});
-    } else{
-      background.SetColor({1});
-      button.SetDefaultColor({230});
-    }
-  };
-  
-  button.SetOnClick(buttonCallback);
-
-
-  // background.Add<Label>()
-  //   .SetColor({1})
-  //   .SetText("Hello world")
-  //   .SetScale(1.0f)
-  //   .Layout()
-  //     .SetTextAlign(TextAlign::Center);
-
+  float dt{};
   while (!m_window->ShouldClose()) {
+    Axiom::Clock::Tick();
     m_window->PollEvents();
+    dt = Axiom::Clock::GetDeltaTime();
+
+    root.Update(dt);
+
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
     m_input->Update(*m_renderTree);
 

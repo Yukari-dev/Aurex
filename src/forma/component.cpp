@@ -7,6 +7,12 @@ namespace Forma{
 Component::Component(){
 }
 
+void Component::Update(float dt){
+  OnUpdate(dt);
+  for(auto& child : m_children)
+    child->Update(dt);
+}
+
 Component *Component::Parent() const {
   return m_parent; 
 }

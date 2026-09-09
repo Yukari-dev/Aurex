@@ -22,6 +22,7 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/*.cpp"
   "src/forma/layout/*.cpp"
   "src/forma/input/*.cpp"
+  "src/forma/animation/*.cpp"
   "src/forma/components/*.cpp"
   "src/forma/render/*.cpp"
   "src/forma/render/renderNodes/*.cpp"
