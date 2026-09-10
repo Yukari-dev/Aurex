@@ -1,7 +1,7 @@
 #include "forma/application.hpp"
-#include "forma/animation/animation.hpp"
+#include "forma/animation/delay.hpp"
+#include "forma/animation/sequence.hpp"
 #include "forma/component.hpp"
-#include "forma/components/button.hpp"
 #include "forma/components/panel.hpp"
 #include <cassert>
 #include <iostream>
@@ -35,23 +35,25 @@ int Application::Run() {
     .SetSizeType(SizeType::Fill);
   background.SetColor({1});
 
-  auto& button = background.Add<Button>();
-  button.Layout()
-      .SetSize({100, 60})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::Center)
-      .SetParentAnchor(Anchor::Center);
+  Sequence sequence;
+  sequence.Add<Delay>(1.f);
+  sequence.Add<Delay>(2.f);
+  sequence.Add<Delay>(3.f);
 
-  button.SetDefaultColor({15})
-    .SetHoverColor({30})
-    .SetPressedColor({1})
-    .AnimateColor({240}, 10.0f);
+  sequence.Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {
     Axiom::Clock::Tick();
     m_window->PollEvents();
     dt = Axiom::Clock::GetDeltaTime();
+
+    sequence.Update(dt);
+    std::cout
+      << "Current child: " << sequence.CurrentChildIndex()
+      << " | Running: " << sequence.IsRunning()
+      << " | Finished: " << sequence.IsFinished()
+      << '\n';
 
     root.Update(dt);
 
