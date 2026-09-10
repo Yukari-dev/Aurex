@@ -2,17 +2,21 @@
 
 namespace Forma{
 
+Sequence::Sequence() : AnimationGroup(0.0f){
+
+}
+
 void Sequence::Start(){
   m_elapsed = 0.0f;
   m_currentChild = 0;
-  for(auto& child : m_children)
+  for(auto& child : Children())
     child->Reset();
-  if(m_children.empty()){
+  if(Children().empty()){
     m_running = false;
     return;
   }
   m_running = true;
-  m_children[m_currentChild]->Start();
+  Children()[m_currentChild]->Start();
 }
 
 void Sequence::Update(float dt){
@@ -20,7 +24,7 @@ void Sequence::Update(float dt){
 
   m_elapsed += dt;
   
-  auto& child = m_children[m_currentChild];
+  auto& child = Children()[m_currentChild];
   child->Update(dt);
 
   if(!child->IsFinished())
@@ -28,12 +32,16 @@ void Sequence::Update(float dt){
 
   m_currentChild++;
 
-  if(m_currentChild >= m_children.size()){
+  if(m_currentChild >= Children().size()){
     m_elapsed = m_duration;
     m_running = false;
     return;
   }
-  m_children[m_currentChild]->Start();
+  Children()[m_currentChild]->Start();
+}
+
+void Sequence::UpdateDuration(float childDuratio){
+  m_duration += childDuratio;
 }
 
 }
