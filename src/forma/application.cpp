@@ -1,4 +1,5 @@
 #include "forma/application.hpp"
+#include "forma/animation/callback.hpp"
 #include "forma/animation/delay.hpp"
 #include "forma/animation/parallel.hpp"
 #include "forma/animation/sequence.hpp"
@@ -37,12 +38,12 @@ int Application::Run() {
   background.SetColor({1});
 
   Sequence sequence;
-  sequence.Add<Delay>(0.5f);
+  sequence
+    .Add<Delay>(1.f)
+    .Add<Callback>([]{
+      std::cout << "Second just passed\n";
+    });
 
-  auto& parallel = sequence.Add<Parallel>();
-  parallel.Add<Delay>(1.0f);
-  parallel.Add<Delay>(0.25f);
-  sequence.Add<Delay>(0.5f);
 
   sequence.Start();
 

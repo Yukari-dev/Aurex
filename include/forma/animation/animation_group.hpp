@@ -11,12 +11,12 @@ public:
   using AnimationNode::AnimationNode;
 
   template <typename T, typename... Args>
-  T& Add(Args&&... args){
+  AnimationGroup& Add(Args&&... args){
     auto child = std::make_unique<T>(std::forward<Args>(args)...);
     T& ref = *child;
     UpdateDuration(child->Duration());
     m_children.push_back(std::move(child));
-    return ref;
+    return *this;
   }
 
   const std::vector<std::unique_ptr<AnimationNode>>& Children() const { return m_children; }
