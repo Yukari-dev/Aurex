@@ -22,6 +22,7 @@ public:
   virtual bool IsRunning() const { return m_running; }
   virtual float Duration() const { return m_duration; };
   virtual float Elapsed() const { return m_elapsed; };
+  void SetDuration(float duration) { m_duration = duration; }
 protected:
   float m_duration{};
   float m_elapsed{};

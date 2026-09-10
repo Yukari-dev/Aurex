@@ -1,12 +1,8 @@
 #include "forma/application.hpp"
-#include "forma/animation/callback.hpp"
-#include "forma/animation/delay.hpp"
-#include "forma/animation/parallel.hpp"
+#include "forma/animation/attributes/color_animation.hpp"
 #include "forma/animation/sequence.hpp"
 #include "forma/component.hpp"
 #include "forma/components/panel.hpp"
-#include <cassert>
-#include <iostream>
 
 namespace Forma {
 
@@ -38,12 +34,11 @@ int Application::Run() {
   background.SetColor({1});
 
   Sequence sequence;
-  sequence
-    .Add<Delay>(1.f)
-    .Add<Callback>([]{
-      std::cout << "Second just passed\n";
-    });
-
+  auto& animation = sequence.AddAndModify<ColorAnimation>();
+  animation.SetStartColor({0})
+           .SetEndColor({255})
+           .SetEaseType(EaseType::InOutCubic)
+           .SetDuration(5.0f);
 
   sequence.Start();
 
@@ -54,6 +49,7 @@ int Application::Run() {
     dt = Axiom::Clock::GetDeltaTime();
 
     sequence.Update(dt);
+    background.SetColor(animation.Value());
     root.Update(dt);
 
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
