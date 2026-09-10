@@ -21,6 +21,7 @@ public:
   virtual bool IsFinished() const { return !m_running && m_elapsed >= m_duration; };
   virtual bool IsRunning() const { return m_running; }
   virtual float Duration() const { return m_duration; };
+  virtual float Elapsed() const { return m_elapsed; };
 protected:
   float m_duration{};
   float m_elapsed{};

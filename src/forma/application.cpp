@@ -1,5 +1,6 @@
 #include "forma/application.hpp"
 #include "forma/animation/delay.hpp"
+#include "forma/animation/parallel.hpp"
 #include "forma/animation/sequence.hpp"
 #include "forma/component.hpp"
 #include "forma/components/panel.hpp"
@@ -36,9 +37,12 @@ int Application::Run() {
   background.SetColor({1});
 
   Sequence sequence;
-  sequence.Add<Delay>(1.f);
-  sequence.Add<Delay>(2.f);
-  sequence.Add<Delay>(3.f);
+  sequence.Add<Delay>(0.5f);
+
+  auto& parallel = sequence.Add<Parallel>();
+  parallel.Add<Delay>(1.0f);
+  parallel.Add<Delay>(0.25f);
+  sequence.Add<Delay>(0.5f);
 
   sequence.Start();
 
@@ -49,12 +53,6 @@ int Application::Run() {
     dt = Axiom::Clock::GetDeltaTime();
 
     sequence.Update(dt);
-    std::cout
-      << "Current child: " << sequence.CurrentChildIndex()
-      << " | Running: " << sequence.IsRunning()
-      << " | Finished: " << sequence.IsFinished()
-      << '\n';
-
     root.Update(dt);
 
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
