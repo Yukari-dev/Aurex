@@ -1,4 +1,4 @@
-#include "forma/animation/delay.hpp"
+#include "forma/animation/attributes/delay.hpp"
 
 namespace Forma{
 

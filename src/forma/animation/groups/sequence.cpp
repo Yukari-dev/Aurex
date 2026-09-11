@@ -1,4 +1,4 @@
-#include "forma/animation/sequence.hpp"
+#include "forma/animation/groups/sequence.hpp"
 
 namespace Forma{
 

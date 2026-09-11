@@ -22,10 +22,12 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/*.cpp"
   "src/forma/layout/*.cpp"
   "src/forma/input/*.cpp"
-  "src/forma/animation/*.cpp"
   "src/forma/components/*.cpp"
   "src/forma/render/*.cpp"
   "src/forma/render/renderNodes/*.cpp"
+  "src/forma/animation/*.cpp"
+  "src/forma/animation/attributes/*.cpp"
+  "src/forma/animation/groups/*.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})

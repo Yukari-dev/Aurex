@@ -1,4 +1,5 @@
 #pragma once
+#include "forma/animation/animation_controller.hpp"
 #include "forma/ui_Context.hpp"
 #include "forma/layout/layout.hpp"
 #include <cstdint>
@@ -17,6 +18,8 @@ public:
   void Update(float dt);
 
   const Forma::Layout& Layout() const;
+  AnimationController& Animation();
+  const AnimationController& Animation() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;
 
   uint32_t ID() const;
@@ -43,11 +46,13 @@ public:
 
   void Initialize(Component* parent, UIContext* context);
 protected:
+  explicit Component(IColorable* colorable);
   uint32_t m_id{};
   int32_t m_order{};
   Forma::Layout m_layout;
   Component *m_parent{nullptr};
   UIContext* m_context{nullptr};
+  AnimationController m_animationController;
   std::vector<std::unique_ptr<Component>> m_children;
 };
 

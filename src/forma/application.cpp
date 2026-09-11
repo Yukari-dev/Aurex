@@ -1,7 +1,4 @@
 #include "forma/application.hpp"
-#include "forma/animation/attributes/color_animation.hpp"
-#include "forma/animation/delay.hpp"
-#include "forma/animation/sequence.hpp"
 #include "forma/component.hpp"
 #include "forma/components/panel.hpp"
 
@@ -34,14 +31,14 @@ int Application::Run() {
     .SetSizeType(SizeType::Fill);
   background.SetColor({1});
 
-  Sequence sequence;
-  auto& animation = sequence.AddAndModify<ColorAnimation>();
-  animation.SetStartColor({0})
-           .SetEndColor({255})
-           .SetEaseType(EaseType::InOutCubic)
-           .SetDuration(5.0f);
-
-  sequence.Start();
+  background
+    .Animation()
+      .Color()
+        .From({1})
+        .To({255})
+        .For(10.0f)
+        .Using(EaseType::InOutCubic)
+        .Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {
@@ -49,8 +46,6 @@ int Application::Run() {
     m_window->PollEvents();
     dt = Axiom::Clock::GetDeltaTime();
 
-    sequence.Update(dt);
-    background.SetColor(animation.Value());
     root.Update(dt);
 
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());

@@ -3,14 +3,15 @@
 
 namespace Forma{
 
-Panel::Panel(Vec2 position, Size size, Forma::Color color) : m_color(color){
+Panel::Panel(Vec2 position, Size size, Forma::Color color) : m_color(color), Component(){
   Layout().SetPosition(position);
   Layout().SetSize(size);
   SetColor(color);
+  Animation().SetColorTarget(*this);
 }
 
-Panel::Panel() {
-
+Panel::Panel() : Component(){
+  Animation().SetColorTarget(*this);
 }
 
 std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
@@ -22,16 +23,6 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   data->order = m_order;
 
   return data;
-}
-
-Panel& Panel::SetColor(Forma::Color color){
-  m_color = color;
-  m_defaultColor = color;
-  return *this;
-}
-
-Color Panel::Color() const{
-  return m_color;
 }
 
 }

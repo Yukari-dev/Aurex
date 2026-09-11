@@ -1,4 +1,4 @@
-#include "forma/animation/parallel.hpp"
+#include "forma/animation/groups/parallel.hpp"
 #include <algorithm>
 
 namespace Forma{
