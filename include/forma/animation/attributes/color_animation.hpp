@@ -13,6 +13,7 @@ public:
 
   void Start() override;
   void Update(float dt) override;
+  bool Finished() const;
 
   ColorAnimation& SetStartColor(Color color);
   ColorAnimation& SetEndColor(Color color);

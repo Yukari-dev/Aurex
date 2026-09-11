@@ -12,8 +12,13 @@ void ColorTrack::Start(){
 }
 
 void ColorTrack::Update(float dt){
+  if(Finished()) return;
   m_animation->Update(dt);
   m_target.SetColor(m_animation->Value());
+}
+
+bool ColorTrack::Finished() const{
+  return m_animation->Finished();
 }
 
 ColorTrack& ColorTrack::From(const Color& color){
@@ -28,6 +33,7 @@ ColorTrack& ColorTrack::To(const Color& color){
 
 ColorTrack& ColorTrack::For(float duration){
   m_animation->SetDuration(duration);
+  m_animation->Start();
   return *this;
 }
 

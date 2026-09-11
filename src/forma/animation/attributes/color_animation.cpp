@@ -23,6 +23,10 @@ void ColorAnimation::Update(float dt){
   m_finalColor = EaseLerp(m_startColor.ToGlm(), m_endColor.ToGlm(), progress, m_easeType);
 }
 
+bool ColorAnimation::Finished() const{
+  return !m_running;
+}
+
 Color ColorAnimation::Value() const {
   return m_finalColor;
 }

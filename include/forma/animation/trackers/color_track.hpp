@@ -12,6 +12,7 @@ public:
 
   void Start();
   void Update(float dt);
+  bool Finished() const;
 
   ColorTrack& From(const Color& color);
   ColorTrack& To(const Color& color);
