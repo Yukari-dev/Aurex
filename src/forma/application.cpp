@@ -1,5 +1,6 @@
 #include "forma/application.hpp"
 #include "forma/animation/attributes/color_animation.hpp"
+#include "forma/animation/delay.hpp"
 #include "forma/animation/sequence.hpp"
 #include "forma/component.hpp"
 #include "forma/components/panel.hpp"
