@@ -4,9 +4,9 @@
 
 namespace Forma{
 
-Component::Component() : m_animationController() {}
+Component::Component() : m_animationController(), m_animationBuilder(m_animationController) {}
 
-Component::Component(IColorable *colorable) : m_animationController(colorable) {}
+Component::Component(IColorable *colorable) : m_animationController(colorable), m_animationBuilder(m_animationController) {}
 
 void Component::Update(float dt){
   m_animationController.Update(dt);
@@ -31,12 +31,12 @@ const Layout& Component::Layout() const {
   return m_layout;
 }
 
-AnimationController& Component::Animation() {
-  return m_animationController;
+AnimationBuilder& Component::Animation() {
+  return m_animationBuilder;
 }
 
-const AnimationController& Component::Animation() const {
-  return m_animationController;
+const AnimationBuilder& Component::Animation() const {
+  return m_animationBuilder;
 }
 
 const std::vector<std::unique_ptr<Component>>& Component::Children() const{

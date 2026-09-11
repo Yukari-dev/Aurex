@@ -2,7 +2,7 @@
 
 namespace Forma{
 
-ColorTrack::ColorTrack(IColorable& color) : m_target(color) {
+ColorTrack::ColorTrack(IColorable& color) : AnimationNode(0.0f), m_target(color) {
   m_animation = std::make_unique<ColorAnimation>();
   m_animation->SetStartColor(color.Color());
 }
@@ -12,13 +12,18 @@ void ColorTrack::Start(){
 }
 
 void ColorTrack::Update(float dt){
-  if(Finished()) return;
+  if(IsFinished()) return;
   m_animation->Update(dt);
-  m_target.SetColor(m_animation->Value());
+  auto value = m_animation->Value();
+  m_target.SetColor(value);
 }
 
-bool ColorTrack::Finished() const{
+bool ColorTrack::IsFinished() const{
   return m_animation->Finished();
+}
+
+float ColorTrack::Duration() const{
+  return m_duration;
 }
 
 ColorTrack& ColorTrack::From(const Color& color){
@@ -33,7 +38,6 @@ ColorTrack& ColorTrack::To(const Color& color){
 
 ColorTrack& ColorTrack::For(float duration){
   m_animation->SetDuration(duration);
-  m_animation->Start();
   return *this;
 }
 

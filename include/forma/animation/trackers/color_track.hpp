@@ -1,4 +1,5 @@
 #pragma once
+#include "forma/animation/animation_node.hpp"
 #include "forma/animation/attributes/color_animation.hpp"
 #include "forma/interfaces/colorable.hpp"
 #include "types/types.hpp"
@@ -6,13 +7,14 @@
 
 namespace Forma{
 
-class ColorTrack{
+class ColorTrack : public AnimationNode{
 public:
   explicit ColorTrack(IColorable& colorable);
 
-  void Start();
-  void Update(float dt);
-  bool Finished() const;
+  void Start() override;
+  void Update(float dt) override;
+  bool IsFinished() const override;
+  float Duration() const override;
 
   ColorTrack& From(const Color& color);
   ColorTrack& To(const Color& color);

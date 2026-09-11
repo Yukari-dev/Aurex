@@ -28,6 +28,7 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/forma/animation/*.cpp"
   "src/forma/animation/attributes/*.cpp"
   "src/forma/animation/groups/*.cpp"
+  "src/forma/animation/trackers/*.cpp"
 )
 
 add_library(Forma STATIC ${PRAXIS_SOURCES})

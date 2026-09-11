@@ -1,5 +1,7 @@
 #pragma once
+#include "forma/animation/animation_builder.hpp"
 #include "forma/animation/animation_node.hpp"
+#include "forma/animation/groups/sequence.hpp"
 #include "forma/animation/trackers/color_track.hpp"
 #include "forma/interfaces/colorable.hpp"
 #include <memory>
@@ -27,8 +29,11 @@ public:
 
   void SetColorTarget(IColorable& target);
   ColorTrack& Color();
+  IColorable& ColorTarget() const;
+  Sequence& GetSequence();
 private:
   IColorable *m_colorable{nullptr};
+  Sequence m_sequence;
   std::unique_ptr<ColorTrack> m_colorTrack{nullptr};
   std::vector<std::unique_ptr<AnimationNode>> m_children;
 };

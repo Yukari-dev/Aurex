@@ -1,4 +1,5 @@
 #pragma once
+#include "forma/animation/animation_builder.hpp"
 #include "forma/animation/animation_controller.hpp"
 #include "forma/ui_Context.hpp"
 #include "forma/layout/layout.hpp"
@@ -18,8 +19,8 @@ public:
   void Update(float dt);
 
   const Forma::Layout& Layout() const;
-  AnimationController& Animation();
-  const AnimationController& Animation() const;
+  AnimationBuilder& Animation();
+  const AnimationBuilder& Animation() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;
 
   uint32_t ID() const;
@@ -52,6 +53,7 @@ protected:
   Forma::Layout m_layout;
   Component *m_parent{nullptr};
   UIContext* m_context{nullptr};
+  AnimationBuilder m_animationBuilder;
   AnimationController m_animationController;
   std::vector<std::unique_ptr<Component>> m_children;
 };
