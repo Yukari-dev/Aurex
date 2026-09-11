@@ -22,6 +22,7 @@ public:
     return ref;
   }
 
+  void Start();
   void Update(float dt);
 
   void SetColorTarget(IColorable& target);

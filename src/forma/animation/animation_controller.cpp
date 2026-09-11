@@ -7,6 +7,13 @@ AnimationController::AnimationController(IColorable* colorable) : m_colorable(co
     m_colorTrack = std::make_unique<ColorTrack>(*m_colorable);
 }
 
+void AnimationController::Start(){
+  if(m_colorTrack)
+    m_colorTrack->Start();
+  for(auto& child : m_children)
+    child->Start();
+}
+
 void AnimationController::Update(float dt){
   if(m_colorTrack)
     m_colorTrack->Update(dt);
