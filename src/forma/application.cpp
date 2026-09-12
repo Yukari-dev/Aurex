@@ -34,11 +34,15 @@ int Application::Run() {
   background
     .Animation()
       .Color()
-        .From({125, 123, 123})
+        .From({255})
+        .To({0})
+        .For(1.0f)
+    .Then()
+      .Color()
+        .From({0})
         .To({255})
-        .Using(EaseType::InOutCubic)
-        .For(1.0f);
-  background.Animation().Start();
+        .For(1.0f)
+    .Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {

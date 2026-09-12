@@ -3,8 +3,6 @@
 namespace Forma{
 
 AnimationController::AnimationController(IColorable* colorable) : m_colorable(colorable) {
-  if(m_colorable)
-    m_colorTrack = std::make_unique<ColorTrack>(*m_colorable);
 }
 
 void AnimationController::Start(){
@@ -15,12 +13,16 @@ void AnimationController::Update(float dt){
   m_sequence.Update(dt);
 }
 
-void AnimationController::SetColorTarget(IColorable& target){
- m_colorable = &target;
+AnimationBuilder AnimationController::Animation(){
+  return AnimationBuilder(*this);
 }
 
-ColorTrack& AnimationController::Color(){
-  return *m_colorTrack;
+ColorTrack& AnimationController::AddColorTrack(){
+  return m_sequence.AddAndModify<ColorTrack>(*m_colorable);
+}
+
+void AnimationController::SetColorTarget(IColorable& target){
+ m_colorable = &target;
 }
 
 IColorable& AnimationController::ColorTarget() const{

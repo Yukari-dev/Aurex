@@ -27,14 +27,14 @@ public:
   void Start();
   void Update(float dt);
 
+  AnimationBuilder Animation();
+  ColorTrack& AddColorTrack();
   void SetColorTarget(IColorable& target);
-  ColorTrack& Color();
   IColorable& ColorTarget() const;
   Sequence& GetSequence();
 private:
   IColorable *m_colorable{nullptr};
   Sequence m_sequence;
-  std::unique_ptr<ColorTrack> m_colorTrack{nullptr};
   std::vector<std::unique_ptr<AnimationNode>> m_children;
 };
 

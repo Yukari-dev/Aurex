@@ -3,19 +3,16 @@
 
 namespace Forma{
 
-AnimationBuilder::AnimationBuilder(AnimationController& controller) 
-: m_controller(controller), m_sequence(&controller.GetSequence()) {}
+AnimationBuilder::AnimationBuilder(AnimationController& controller) : m_controller(controller) {}
 
-void AnimationBuilder::Start(){
+AnimationBuilder& AnimationBuilder::Start(){
   m_controller.Start();
+  return *this;
 }
 
-void AnimationBuilder::SetColorTarget(IColorable& target){
-  m_controller.SetColorTarget(target);
-}
-
-ColorTrack& AnimationBuilder::Color(){
-  return m_sequence->AddAndModify<ColorTrack>(m_controller.ColorTarget());
+AnimationBuilder& AnimationBuilder::Color(){
+  m_currentTrack = &m_controller.AddColorTrack();
+  return *this;
 }
 
 AnimationBuilder& AnimationBuilder::Then(){

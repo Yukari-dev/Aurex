@@ -27,6 +27,7 @@ void Sequence::Update(float dt){
   auto& child = Children()[m_currentChild];
   child->Update(dt);
 
+
   if(!child->IsFinished())
     return;
 

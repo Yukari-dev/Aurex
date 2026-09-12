@@ -2,10 +2,8 @@
 
 namespace Forma{
 
-ColorTrack::ColorTrack(IColorable& color) : AnimationNode(0.0f), m_target(color) {
-  m_animation = std::make_unique<ColorAnimation>();
-  m_animation->SetStartColor(color.Color());
-}
+ColorTrack::ColorTrack(IColorable& color)
+  : AnimationNode(0.0f), m_target(color), m_animation(std::make_unique<ColorAnimation>()) {}
 
 void ColorTrack::Start(){
   m_animation->Start();

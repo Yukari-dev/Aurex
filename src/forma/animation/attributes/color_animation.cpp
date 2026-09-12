@@ -3,7 +3,6 @@
 
 namespace Forma{
 
-
 void ColorAnimation::Start(){
   m_elapsed = 0.0f;
   m_running = true;

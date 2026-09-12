@@ -3,15 +3,13 @@
 
 namespace Forma{
 
-Panel::Panel(Vec2 position, Size size, Forma::Color color) : m_color(color), Component(){
+Panel::Panel(Vec2 position, Size size, Forma::Color color) : m_color(color), Component(this){
   Layout().SetPosition(position);
   Layout().SetSize(size);
   SetColor(color);
-  Animation().SetColorTarget(*this);
 }
 
-Panel::Panel() : Component(){
-  Animation().SetColorTarget(*this);
+Panel::Panel() : Component(this){
 }
 
 std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
