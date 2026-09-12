@@ -24,6 +24,14 @@ float ColorTrack::Duration() const{
   return m_duration;
 }
 
+void ColorTrack::SetDuration(float duration){
+  For(duration);
+}
+
+void ColorTrack::SetEase(EaseType type){
+  Using(type);
+}
+
 ColorTrack& ColorTrack::From(const Color& color){
   m_animation->SetStartColor(color);
   return *this;

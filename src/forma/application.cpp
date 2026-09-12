@@ -1,6 +1,7 @@
 #include "forma/application.hpp"
 #include "forma/component.hpp"
 #include "forma/components/panel.hpp"
+#include "types/types.hpp"
 
 namespace Forma {
 
@@ -31,18 +32,22 @@ int Application::Run() {
     .SetSizeType(SizeType::Fill);
   background.SetColor({1});
 
-  background
+  auto &panel = background.Add<Panel>();
+  panel
+    .Layout()
+      .SetSize({200, 200})
+      .SetPositionType(PositionType::Anchor)
+      .SetAnchor(Anchor::Center, Anchor::Center);
+  panel.SetColor({230});
+
+  panel
     .Animation()
-      .Color()
-        .From({255})
-        .To({0})
-        .For(1.0f)
-    .Then()
-      .Color()
-        .From({0})
-        .To({255})
-        .For(1.0f)
-    .Start();
+      .Position()
+        .From(Vec2{-500, 0})
+        .To(Vec2{500, 0})
+        .Using(EaseType::InOutCubic)
+        .For(1.0f);
+  panel.Animation().Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {

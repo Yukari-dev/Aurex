@@ -25,7 +25,7 @@ private:
   Color m_finalColor{};
   Color m_startColor{};
   Color m_endColor{};
-  EaseType m_easeType;
+  EaseType m_easeType{};
 };
 
 }

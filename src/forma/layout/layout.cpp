@@ -17,8 +17,10 @@ Layout& Layout::SetPositionType(Forma::PositionType type){
   return *this;
 }
 
-Layout& Layout::SetAnchor(Forma::Anchor anchor){
+Layout& Layout::SetAnchor(Forma::Anchor anchor, Forma::Anchor parentAnchor){
   m_anchor = anchor;
+  if(parentAnchor != Anchor::TopLeft)
+    m_parentAnchor = parentAnchor;
   return *this;
 }
 

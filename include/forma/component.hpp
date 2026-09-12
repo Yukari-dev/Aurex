@@ -1,6 +1,7 @@
 #pragma once
 #include "forma/animation/animation_builder.hpp"
 #include "forma/animation/animation_controller.hpp"
+#include "forma/interfaces/positionable.hpp"
 #include "forma/ui_Context.hpp"
 #include "forma/layout/layout.hpp"
 #include <cstdint>
@@ -9,7 +10,7 @@
 
 namespace Forma{
 
-class Component{
+class Component : public IPositionable{
 public:
   explicit Component();
   virtual ~Component() = default;
@@ -30,6 +31,9 @@ public:
   void SetOrder(int32_t o);
 
   Component *Parent() const;
+
+  Vec2 Position() const override;
+  void SetPosition(const Vec2& position) override;
 
   Forma::Layout& Layout();
 

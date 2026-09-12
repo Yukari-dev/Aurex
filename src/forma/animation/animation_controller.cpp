@@ -2,7 +2,7 @@
 
 namespace Forma{
 
-AnimationController::AnimationController(IColorable* colorable) : m_colorable(colorable) {
+AnimationController::AnimationController(IPositionable *positionable, IColorable* colorable) : m_colorable(colorable), m_positionable(positionable) {
 }
 
 void AnimationController::Start(){
@@ -19,6 +19,10 @@ AnimationBuilder AnimationController::Animation(){
 
 ColorTrack& AnimationController::AddColorTrack(){
   return m_sequence.AddAndModify<ColorTrack>(*m_colorable);
+}
+
+PositionTrack& AnimationController::AddPositionTrack(){
+  return m_sequence.AddAndModify<PositionTrack>(*m_positionable);
 }
 
 void AnimationController::SetColorTarget(IColorable& target){

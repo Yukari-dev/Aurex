@@ -1,5 +1,7 @@
 #pragma once
-#include "forma/animation/trackers/color_track.hpp"
+#include "forma/animation/trackers/track.hpp"
+#include "types/types.hpp"
+#include <math.hpp>
 
 namespace Forma{
 
@@ -13,38 +15,41 @@ public:
 
   AnimationBuilder& Start();
 
-  AnimationBuilder& From(const Color& color){
+  template <typename T>
+  AnimationBuilder& From(const T& value){
     if(m_currentTrack)
-      m_currentTrack->From(color);
+      m_currentTrack->From(value);
     return *this;
   }
 
-  AnimationBuilder& To(const Color& color){
+  template <typename T>
+  AnimationBuilder& To(const T& value){
     if(m_currentTrack)
-      m_currentTrack->To(color);
+      m_currentTrack->To(value);
     return *this;
   }
 
-  AnimationBuilder& Using(EaseType type){
+  AnimationBuilder& Using(Axiom::EaseType type){
     if(m_currentTrack)
-      m_currentTrack->Using(type);
+      m_currentTrack->SetEase(type);
     return *this;
   }
 
   AnimationBuilder& For(float duration){
     if(m_currentTrack)
-      m_currentTrack->For(duration);
+      m_currentTrack->SetDuration(duration);
     return *this;
   }
 
   AnimationBuilder& Color();
+  AnimationBuilder& Position();
 
   AnimationBuilder& Then();
   AnimationBuilder& While();
   AnimationBuilder& And();
 private:
   AnimationController& m_controller;
-  ColorTrack* m_currentTrack{nullptr};
+  ITrackable* m_currentTrack{nullptr};
 };
 
 }

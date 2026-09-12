@@ -8,7 +8,7 @@ public:
   Layout& SetPosition(Vec2 position);
   Layout& SetSize(Size size);
   Layout& SetPositionType(PositionType positionType);
-  Layout& SetAnchor(Anchor anchor);
+  Layout& SetAnchor(Anchor anchor, Anchor parentAnchor = Anchor::TopLeft);
   Layout& SetParentAnchor(Anchor anchor);
   Layout& SetSizeType(SizeType sizeType);
   Layout& SetTextAlign(TextAlign textAlign);

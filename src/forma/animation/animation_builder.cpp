@@ -15,6 +15,11 @@ AnimationBuilder& AnimationBuilder::Color(){
   return *this;
 }
 
+AnimationBuilder& AnimationBuilder::Position(){
+  m_currentTrack = &m_controller.AddPositionTrack();
+  return *this;
+}
+
 AnimationBuilder& AnimationBuilder::Then(){
   return *this;
 }
