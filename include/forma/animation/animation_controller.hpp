@@ -34,6 +34,7 @@ public:
   PositionTrack& AddPositionTrack();
   void SetColorTarget(IColorable& target);
   IColorable& ColorTarget() const;
+  IPositionable& PositionTarget() const;
   Sequence& GetSequence();
 private:
   IColorable *m_colorable{nullptr};

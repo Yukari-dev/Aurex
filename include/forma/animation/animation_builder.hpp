@@ -1,6 +1,6 @@
 #pragma once
+#include "forma/animation/animation_group.hpp"
 #include "forma/animation/trackers/track.hpp"
-#include "types/types.hpp"
 #include <math.hpp>
 
 namespace Forma{
@@ -49,6 +49,8 @@ public:
   AnimationBuilder& And();
 private:
   AnimationController& m_controller;
+
+  AnimationGroup *m_currentGroup{nullptr};
   ITrackable* m_currentTrack{nullptr};
 };
 

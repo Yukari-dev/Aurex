@@ -29,6 +29,10 @@ void AnimationController::SetColorTarget(IColorable& target){
  m_colorable = &target;
 }
 
+IPositionable& AnimationController::PositionTarget() const{
+  return *m_positionable;
+}
+
 IColorable& AnimationController::ColorTarget() const{
   return *m_colorable;
 }
