@@ -53,6 +53,12 @@ int Application::Run() {
           .From(Color{230})
           .To(Color{128, 255, 255})
           .Using(EaseType::InOutCubic)
+          .For(1.0f)
+      .Then()
+        .Position()
+          .From(Vec2{0, 0})
+          .To(Vec2{500, 0})
+          .Using(EaseType::InOutCubic)
           .For(1.0f);
         
   panel.Animation().Start();

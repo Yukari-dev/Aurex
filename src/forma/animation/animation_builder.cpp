@@ -22,6 +22,8 @@ AnimationBuilder& AnimationBuilder::Position(){
 }
 
 AnimationBuilder& AnimationBuilder::Then(){
+  m_currentGroup = &m_controller.GetSequence();
+  m_currentTrack = nullptr;
   return *this;
 }
 
