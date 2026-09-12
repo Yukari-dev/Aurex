@@ -1,5 +1,6 @@
 #include "forma/animation/animation_builder.hpp"
 #include "forma/animation/animation_controller.hpp"
+#include "forma/animation/attributes/delay.hpp"
 #include "forma/animation/groups/parallel.hpp"
 
 namespace Forma{
@@ -18,6 +19,11 @@ AnimationBuilder& AnimationBuilder::Color(){
 
 AnimationBuilder& AnimationBuilder::Position(){
   m_currentTrack = &m_currentGroup->AddAndModify<PositionTrack>(m_controller.PositionTarget());
+  return *this;
+}
+
+AnimationBuilder& AnimationBuilder::Delay(float duration){
+  m_currentGroup->Add<Forma::Delay>(duration);
   return *this;
 }
 

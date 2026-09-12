@@ -54,6 +54,7 @@ int Application::Run() {
           .To(Color{128, 255, 255})
           .Using(EaseType::InOutCubic)
           .For(1.0f)
+    .Delay(2.0f)
       .Then()
         .Position()
           .From(Vec2{0, 0})
