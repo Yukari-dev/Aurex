@@ -12,8 +12,15 @@ void PositionAnimation::Start(){
 void PositionAnimation::Update(float dt){
   if(!m_running) return;
 
+  if(m_elapsed < m_delay){
+    m_elapsed += dt;
+    return;
+  }
+
   m_elapsed += dt;
-  float progress = m_elapsed / m_duration;
+
+  const float animationTime = m_elapsed - m_delay;
+  float progress = animationTime / m_duration;
   if(progress >= 1.0f){
     progress = 1.0f;
     m_elapsed = m_duration;

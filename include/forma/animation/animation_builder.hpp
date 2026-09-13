@@ -35,6 +35,12 @@ public:
     return *this;
   }
 
+  AnimationBuilder& Wait(float duration){
+    if(m_currentTrack)
+      m_currentTrack->SetDelay(duration);
+    return *this;
+  }
+
   AnimationBuilder& For(float duration){
     if(m_currentTrack)
       m_currentTrack->SetDuration(duration);

@@ -21,6 +21,7 @@ public:
 
   SizeTrack& From(const Size& size);
   SizeTrack& To(const Size& size);
+  SizeTrack& Delay(float delay);
   SizeTrack& For(float duration);
   SizeTrack& Using(EaseType easeType);
 
@@ -34,6 +35,7 @@ public:
       throw std::invalid_argument("SizeTrack expect Color.");
     To(*static_cast<const Size*>(value));
   }
+  void SetDelay(float delay) override;
   void SetDuration(float duration) override;
   void SetEase(EaseType easeType) override;
 private:

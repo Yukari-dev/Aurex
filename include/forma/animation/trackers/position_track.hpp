@@ -21,6 +21,7 @@ public:
 
   PositionTrack& From(const Vec2& pos);
   PositionTrack& To(const Vec2& pos);
+  PositionTrack& Delay(float delay);
   PositionTrack& For(float duration);
   PositionTrack& Using(EaseType easeType);
 
@@ -34,6 +35,7 @@ public:
       throw std::invalid_argument("PositionTrack expect Color.");
     To(*static_cast<const Vec2*>(value));
   }
+  void SetDelay(float delay) override;
   void SetDuration(float duration) override;
   void SetEase(EaseType easeType) override;
 private:

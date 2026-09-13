@@ -20,6 +20,7 @@ public:
 
   OpacityTrack& From(const float& opacity);
   OpacityTrack& To(const float& opacity);
+  OpacityTrack& Delay(float delay);
   OpacityTrack& For(float duration);
   OpacityTrack& Using(EaseType easeType);
 
@@ -33,6 +34,7 @@ public:
       throw std::invalid_argument("OpacityTrack expect Color.");
     To(*static_cast<const float*>(value));
   }
+  void SetDelay(float delay) override;
   void SetDuration(float duration) override;
   void SetEase(EaseType easeType) override;
 private:

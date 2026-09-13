@@ -18,6 +18,7 @@ public:
     SetTo(&value, typeid(T));
   }
 
+  virtual void SetDelay(float delay) = 0;
   virtual void SetDuration(float duration) = 0;
   virtual void SetEase(Axiom::EaseType ease) = 0;
 

@@ -1,5 +1,6 @@
 #include "forma/application.hpp"
 #include "forma/component.hpp"
+#include "forma/components/label.hpp"
 #include "forma/components/panel.hpp"
 #include "types/types.hpp"
 
@@ -30,41 +31,33 @@ int Application::Run() {
 
   background.Layout()
     .SetSizeType(SizeType::Fill);
-  background.SetColor({1});
+  background.SetColor({11, 11, 11});
 
-  auto &panel = background.Add<Panel>();
-  panel
+  auto& label = background.Add<Label>();
+  label.SetColor(Color{"#FFFFFF"});
+  label.SetOpacity(0.f);
+  label
+    .SetText("Forma")
+    .SetScale(1.5f)
     .Layout()
-      .SetSize({200, 200})
-      .SetPosition({-500, 0})
+      .SetPosition({0, 100})
       .SetPositionType(PositionType::Anchor)
       .SetAnchor(Anchor::Center, Anchor::Center);
-  panel.SetColor({230, 230, 230, 100});
 
-  panel
+  label
     .Animation()
-      .Then()
+      .While()
+        .Opacity()
+          .To(1.0f)
+          .Wait(0.2f)
+          .For(1.0f)
+      .And()
         .Position()
           .To(Vec2{0})
           .Using(EaseType::InOutCubic)
-          .For(1.f)
-      .Then()
-        .Color()
-          .To(Color{128, 255, 255})
-          .Using(EaseType::InOutCubic)
-          .For(0.4f)
-    .Delay(0.2f)
-      .Opacity()
-        .To(0.0f)
-        .Using(EaseType::InOutCubic)
-        .For(0.4f)
-    .Delay(1.0f)
-      .Opacity()
-        .To(1.0f)
-        .Using(EaseType::InOutCubic)
-        .For(0.4f);
-        
-  panel.Animation().Start();
+          .For(0.6f);
+
+  label.Animation().Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {

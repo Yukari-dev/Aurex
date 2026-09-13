@@ -26,6 +26,10 @@ float PositionTrack::Duration() const{
   return m_duration;
 }
 
+void PositionTrack::SetDelay(float delay){
+  Delay(delay);
+}
+
 void PositionTrack::SetDuration(float duration){
   For(duration);
 }
@@ -42,6 +46,11 @@ PositionTrack& PositionTrack::From(const Vec2& pos){
 
 PositionTrack& PositionTrack::To(const Vec2& pos){
   m_animation->SetEndPos(pos);
+  return *this;
+}
+
+PositionTrack& PositionTrack::Delay(float delay){
+  m_animation->SetDelay(delay);
   return *this;
 }
 

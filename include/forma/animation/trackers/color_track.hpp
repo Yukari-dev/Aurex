@@ -21,6 +21,7 @@ public:
 
   ColorTrack& From(const Color& color);
   ColorTrack& To(const Color& color);
+  ColorTrack& Delay(float delay);
   ColorTrack& For(float duration);
   ColorTrack& Using(EaseType easeType);
 
@@ -34,6 +35,7 @@ public:
       throw std::invalid_argument("ColorTrack expect Color.");
     To(*static_cast<const Color*>(value));
   }
+  void SetDelay(float delay) override;
   void SetDuration(float duration) override;
   void SetEase(EaseType easeType) override;
 private:

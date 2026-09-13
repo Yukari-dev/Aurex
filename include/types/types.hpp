@@ -1,5 +1,8 @@
 #pragma once
+#include <colors.hpp>
+#include <cstdint>
 #include <glm/glm.hpp>
+#include <string>
 
 namespace Forma{
 
@@ -81,11 +84,15 @@ struct Rect{
 };
 
 struct Color{
-  float r{}, g{}, b{}, a{};
+  float r{}, g{}, b{}, a{255};
 
   Color(float r, float g, float b) : r(r), g(g), b(b), a(255) {}
   Color(float r, float g, float b, float a) : r(r), g(g), b(b), a(a) {}
   Color(float s) : r(s), g(s), b(s), a(255) {}
+  Color(const std::string& hex){
+    glm::vec3 rgb = Axiom::HexToRgb(hex);
+    r = rgb.r * 255.0f; g = rgb.g * 255.0f; b = rgb.b * 255.0f;
+  }
   Color(glm::vec3 v) : r(v.r), g(v.g), b(v.b), a(255) {}
   Color() {}
 

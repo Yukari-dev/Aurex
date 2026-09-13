@@ -23,9 +23,11 @@ public:
   virtual float Duration() const { return m_duration; };
   virtual float Elapsed() const { return m_elapsed; };
   void SetDuration(float duration) { m_duration = duration; }
+  void SetDelay(float delay) { m_delay = delay; }
 protected:
   float m_duration{};
   float m_elapsed{};
+  float m_delay{};
   bool m_running{false};
 };
 

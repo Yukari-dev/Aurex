@@ -19,6 +19,7 @@ public:
     label.textScale = textScale;
     label.size = size;
     label.color = color;
+    label.opacity = opacity;
     label.SetOrder(order);
   }
 
@@ -27,6 +28,7 @@ public:
   Vec2 position{};
   Size size{};
   Color color{};
+  float opacity{};
   int32_t order{};
 };
 

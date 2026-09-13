@@ -3,10 +3,10 @@
 
 namespace Forma{
 
-Label::Label() {}
+Label::Label() : Component(this) {}
 
 Label::Label(const std::string& text, float scale, Vec2 position, Forma::Color color)
-: m_color(color), m_text(text), m_scale(scale){
+: Component(this), m_color(color), m_text(text), m_scale(scale){
   Layout().SetPosition(position);
   Layout().SetSize(m_context->Renderer2D().MeasureText(m_text, m_scale));
   SetColor(color);
@@ -20,6 +20,7 @@ std::unique_ptr<Forma::RenderData> Label::RenderData() const {
   data->textScale = m_scale;
   data->size = Layout().Size();
   data->color = Color();
+  data->opacity = Opacity();
   data->order = m_order;
 
   return data;
@@ -57,16 +58,6 @@ Label& Label::SetScale(float scale){
 
 float Label::Scale(){
   return m_scale;
-}
-
-Label& Label::SetColor(Forma::Color color){
-  m_color = color;
-  m_defaultColor = color;
-  return *this;
-}
-
-Color Label::Color() const{
-  return m_color;
 }
 
 }

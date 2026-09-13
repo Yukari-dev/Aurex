@@ -13,6 +13,7 @@ void ColorTrack::Start(){
 
 void ColorTrack::Update(float dt){
   if(IsFinished()) return;
+
   m_animation->Update(dt);
   auto value = m_animation->Value();
   m_target.SetColor(value);
@@ -24,6 +25,10 @@ bool ColorTrack::IsFinished() const{
 
 float ColorTrack::Duration() const{
   return m_duration;
+}
+
+void ColorTrack::SetDelay(float delay){
+  Delay(delay);
 }
 
 void ColorTrack::SetDuration(float duration){
@@ -42,6 +47,11 @@ ColorTrack& ColorTrack::From(const Color& color){
 
 ColorTrack& ColorTrack::To(const Color& color){
   m_animation->SetEndColor(color);
+  return *this;
+}
+
+ColorTrack& ColorTrack::Delay(float delay){
+  m_animation->SetDelay(delay);
   return *this;
 }
 

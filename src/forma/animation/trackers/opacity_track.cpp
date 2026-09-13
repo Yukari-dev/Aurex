@@ -26,6 +26,10 @@ float OpacityTrack::Duration() const{
   return m_duration;
 }
 
+void OpacityTrack::SetDelay(float delay){
+  Delay(delay);
+}
+
 void OpacityTrack::SetDuration(float duration){
   For(duration);
 }
@@ -42,6 +46,11 @@ OpacityTrack& OpacityTrack::From(const float& opacity){
 
 OpacityTrack& OpacityTrack::To(const float& opacity){
   m_animation->SetEndOpacity(opacity);
+  return *this;
+}
+
+OpacityTrack& OpacityTrack::Delay(float delay){
+  m_animation->SetDelay(delay);
   return *this;
 }
 

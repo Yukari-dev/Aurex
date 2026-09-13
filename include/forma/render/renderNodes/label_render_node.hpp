@@ -15,6 +15,7 @@ public:
   float textScale{};
   Vec2 position{};
   Color color{};
+  float opacity{};
   int32_t order{};
 };
 

@@ -26,6 +26,10 @@ float SizeTrack::Duration() const{
   return m_duration;
 }
 
+void SizeTrack::SetDelay(float duration){
+  Delay(duration);
+}
+
 void SizeTrack::SetDuration(float duration){
   For(duration);
 }
@@ -42,6 +46,11 @@ SizeTrack& SizeTrack::From(const Size& size){
 
 SizeTrack& SizeTrack::To(const Size& size){
   m_animation->SetEndSize(size);
+  return *this;
+}
+
+SizeTrack& SizeTrack::Delay(float delay){
+  m_animation->SetDelay(delay);
   return *this;
 }
 

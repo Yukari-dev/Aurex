@@ -4,7 +4,7 @@
 namespace Forma{
 
 void LabelRenderNode::Draw(Renderer& renderer){
-  renderer.DrawText(text, position, color, textScale);
+  renderer.DrawText(text, position, color, textScale, opacity);
 }
 
 bool LabelRenderNode::Contains(Vec2 hitPoint) const {
