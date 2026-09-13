@@ -6,6 +6,8 @@ PositionTrack::PositionTrack(IPositionable& pos)
   : AnimationNode(0.0f), m_target(pos), m_animation(std::make_unique<PositionAnimation>()) {}
 
 void PositionTrack::Start(){
+  if(m_hasDefaultValue)
+    m_animation->SetStartPos(m_target.Position());
   m_animation->Start();
 }
 
@@ -34,6 +36,7 @@ void PositionTrack::SetEase(EaseType type){
 
 PositionTrack& PositionTrack::From(const Vec2& pos){
   m_animation->SetStartPos(pos);
+  m_hasDefaultValue = true;
   return *this;
 }
 

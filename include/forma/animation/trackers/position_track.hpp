@@ -12,7 +12,7 @@ namespace Forma{
 
 class PositionTrack : public AnimationNode, public ITrackable{
 public:
-  explicit PositionTrack(IPositionable& colorable);
+  explicit PositionTrack(IPositionable& positionable);
 
   void Start() override;
   void Update(float dt) override;
@@ -38,6 +38,7 @@ public:
   void SetEase(EaseType easeType) override;
 private:
   IPositionable& m_target;
+  bool m_hasDefaultValue{true};
   std::unique_ptr<PositionAnimation> m_animation;
 };
 

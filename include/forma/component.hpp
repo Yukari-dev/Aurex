@@ -2,15 +2,17 @@
 #include "forma/animation/animation_builder.hpp"
 #include "forma/animation/animation_controller.hpp"
 #include "forma/interfaces/positionable.hpp"
+#include "forma/interfaces/sizeable.hpp"
 #include "forma/ui_Context.hpp"
 #include "forma/layout/layout.hpp"
+#include "types/types.hpp"
 #include <cstdint>
 #include <vector>
 #include <memory>
 
 namespace Forma{
 
-class Component : public IPositionable{
+class Component : public IPositionable, public ISizeable{
 public:
   explicit Component();
   virtual ~Component() = default;
@@ -34,6 +36,9 @@ public:
 
   Vec2 Position() const override;
   void SetPosition(const Vec2& position) override;
+
+  Forma::Size Size() const override;
+  void SetSize(const Forma::Size& position) override;
 
   Forma::Layout& Layout();
 

@@ -38,6 +38,7 @@ public:
   void SetEase(EaseType easeType) override;
 private:
   IColorable& m_target;
+  bool m_hasDefaultValue{true};
   std::unique_ptr<ColorAnimation> m_animation;
 };
 

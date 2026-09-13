@@ -7,7 +7,7 @@ namespace Forma{
 
 TextInput::TextInput() {}
 
-TextInput::TextInput(Vec2 position, Size size, Forma::Color color) {
+TextInput::TextInput(Vec2 position, Forma::Size size, Forma::Color color) {
   Layout().SetPosition(position);
   Layout().SetSize(size);
   SetColor(color);

@@ -4,9 +4,9 @@
 
 namespace Forma{
 
-Component::Component() : m_animationController(this), m_animationBuilder(m_animationController) {}
+Component::Component() : m_animationController(this, this), m_animationBuilder(m_animationController) {}
 
-Component::Component(IColorable *colorable) : m_animationController(this, colorable), m_animationBuilder(m_animationController) {}
+Component::Component(IColorable *colorable) : m_animationController(this, this, colorable), m_animationBuilder(m_animationController) {}
 
 void Component::Update(float dt){
   m_animationController.Update(dt);
@@ -33,6 +33,14 @@ Vec2 Component::Position() const{
 
 void Component::SetPosition(const Vec2& position){
   Layout().SetPosition(position);
+}
+
+Size Component::Size() const{
+  return Layout().Size();
+}
+
+void Component::SetSize(const Forma::Size& position){
+  Layout().SetSize(position);
 }
 
 const Layout& Component::Layout() const {

@@ -9,7 +9,7 @@ namespace Forma{
 class Panel : public Component, public IRenderable, public IColorable{
 public:
   Panel();
-  Panel(Vec2 position, Size size, Forma::Color color);
+  Panel(Vec2 position, Forma::Size size, Forma::Color color);
 
   std::unique_ptr<Forma::RenderData> RenderData() const override;
 

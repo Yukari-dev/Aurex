@@ -43,6 +43,7 @@ public:
 
   AnimationBuilder& Color();
   AnimationBuilder& Position();
+  AnimationBuilder& Size();
   AnimationBuilder& Delay(float duration);
 
   AnimationBuilder& Then();

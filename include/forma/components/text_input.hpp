@@ -13,7 +13,7 @@ namespace Forma{
 class TextInput : public Component, public IRenderable, public IMouseTarget, public IFocusable, public IKeyboardTarget{
 public:
   TextInput();
-  TextInput(Vec2 position, Size size, Color color);
+  TextInput(Vec2 position, Forma::Size size, Color color);
 
   void OnInitialize() override;
   

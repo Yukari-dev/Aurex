@@ -6,6 +6,8 @@ ColorTrack::ColorTrack(IColorable& color)
   : AnimationNode(0.0f), m_target(color), m_animation(std::make_unique<ColorAnimation>()) {}
 
 void ColorTrack::Start(){
+  if(m_hasDefaultValue)
+    m_animation->SetStartColor(m_target.Color());
   m_animation->Start();
 }
 
@@ -34,6 +36,7 @@ void ColorTrack::SetEase(EaseType type){
 
 ColorTrack& ColorTrack::From(const Color& color){
   m_animation->SetStartColor(color);
+  m_hasDefaultValue = false;
   return *this;
 }
 

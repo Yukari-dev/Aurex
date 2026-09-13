@@ -3,7 +3,7 @@
 
 namespace Forma{
 
-Panel::Panel(Vec2 position, Size size, Forma::Color color) : m_color(color), Component(this){
+Panel::Panel(Vec2 position, Forma::Size size, Forma::Color color) : m_color(color), Component(this){
   Layout().SetPosition(position);
   Layout().SetSize(size);
   SetColor(color);

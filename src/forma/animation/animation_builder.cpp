@@ -22,6 +22,11 @@ AnimationBuilder& AnimationBuilder::Position(){
   return *this;
 }
 
+AnimationBuilder& AnimationBuilder::Size(){
+  m_currentTrack = &m_currentGroup->AddAndModify<SizeTrack>(m_controller.SizeTarget());
+  return *this;
+}
+
 AnimationBuilder& AnimationBuilder::Delay(float duration){
   m_currentGroup->Add<Forma::Delay>(duration);
   return *this;
