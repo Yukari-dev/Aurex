@@ -40,7 +40,6 @@ int Application::Run() {
       .SetPositionType(PositionType::Anchor)
       .SetAnchor(Anchor::Center, Anchor::Center);
   panel.SetColor({230, 230, 230, 100});
-  panel.SetOpacity(0.1f);
 
   panel
     .Animation()
@@ -55,21 +54,15 @@ int Application::Run() {
           .Using(EaseType::InOutCubic)
           .For(0.4f)
     .Delay(0.2f)
-      .While()
-        .Size()
-          .To(Size{20})
-          .Using(EaseType::InOutCubic)
-          .For(0.7f)
-      .And()
-        .Color()
-          .To(Color{255, 128, 255})
-          .Using(EaseType::InOutCubic)
-          .For(1.0f)
-      .And()
-        .Position()
-          .To(Vec2{500, 0})
-          .Using(EaseType::InOutCubic)
-          .For(1.0f);
+      .Opacity()
+        .To(0.0f)
+        .Using(EaseType::InOutCubic)
+        .For(0.4f)
+    .Delay(1.0f)
+      .Opacity()
+        .To(1.0f)
+        .Using(EaseType::InOutCubic)
+        .For(0.4f);
         
   panel.Animation().Start();
 

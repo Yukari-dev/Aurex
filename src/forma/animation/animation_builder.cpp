@@ -2,6 +2,7 @@
 #include "forma/animation/animation_controller.hpp"
 #include "forma/animation/attributes/delay.hpp"
 #include "forma/animation/groups/parallel.hpp"
+#include "forma/animation/trackers/opacity_track.hpp"
 
 namespace Forma{
 
@@ -9,6 +10,11 @@ AnimationBuilder::AnimationBuilder(AnimationController& controller) : m_controll
 
 AnimationBuilder& AnimationBuilder::Start(){
   m_controller.Start();
+  return *this;
+}
+
+AnimationBuilder& AnimationBuilder::Opacity(){
+  m_currentTrack = &m_currentGroup->AddAndModify<OpacityTrack>(m_controller.ColorTarget());
   return *this;
 }
 
