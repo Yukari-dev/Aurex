@@ -5,7 +5,7 @@ namespace Forma{
 
 void PanelRenderNode::Draw(Renderer& renderer){
   renderer.DrawPanel(
-    position, size, color
+    position, size, color, opacity
   );
 }
 

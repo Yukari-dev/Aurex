@@ -15,7 +15,11 @@ public:
 
   Forma::Color Color() const override { return m_color;}
   void SetColor(Forma::Color color) override { m_color = color; }
+
+  float Opacity() const override { return m_opacity;}
+  void SetOpacity(float opacity) override { m_opacity = opacity; }
 private:
+  float m_opacity{1.0f};
   Forma::Color m_color{};
   Forma::Color m_defaultColor{};
 };

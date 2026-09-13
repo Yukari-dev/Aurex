@@ -36,7 +36,7 @@ void SizeTrack::SetEase(EaseType type){
 
 SizeTrack& SizeTrack::From(const Size& size){
   m_animation->SetStartSize(size);
-  m_hasDefaultValue = true;
+  m_hasDefaultValue = false;
   return *this;
 }
 

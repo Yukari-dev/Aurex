@@ -39,7 +39,8 @@ int Application::Run() {
       .SetPosition({-500, 0})
       .SetPositionType(PositionType::Anchor)
       .SetAnchor(Anchor::Center, Anchor::Center);
-  panel.SetColor({230});
+  panel.SetColor({230, 230, 230, 100});
+  panel.SetOpacity(0.1f);
 
   panel
     .Animation()
@@ -66,7 +67,6 @@ int Application::Run() {
           .For(1.0f)
       .And()
         .Position()
-          .From(Vec2{0, 500})
           .To(Vec2{500, 0})
           .Using(EaseType::InOutCubic)
           .For(1.0f);

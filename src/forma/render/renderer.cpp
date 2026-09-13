@@ -34,18 +34,18 @@ Vec2 Renderer::MeasureText(const std::string& text, float scale){
   return {m_renderer.MeasureText(text, scale).x, m_renderer.MeasureText(text, scale).y};
 }
 
-void Renderer::DrawPanel(const Vec2& position, const Size& size, const Color& color){
+void Renderer::DrawPanel(const Vec2& position, const Size& size, const Color& color, float alpha){
   m_renderer.DrawRect(
-    position.ToGlm(), size.ToGlm(), color.Normalize().ToGlm()
+    position.ToGlm(), size.ToGlm(), color.Normalize().ToGlm(), alpha
   );
 }
 
-void Renderer::DrawLine(Vec2 from, Vec2 to, float thickness, const Color& color){
-  m_renderer.DrawLine(from.ToGlm(), to.ToGlm(), thickness, color.Normalize().ToGlm());
+void Renderer::DrawLine(Vec2 from, Vec2 to, float thickness, const Color& color, float alpha){
+  m_renderer.DrawLine(from.ToGlm(), to.ToGlm(), thickness, color.Normalize().ToGlm(), alpha);
 }
 
-void Renderer::DrawText(const std::string& text, const Vec2& position, const Color& color, float scale){
-  m_renderer.DrawText(text, position.ToGlm(), color.Normalize().ToGlm(), scale);
+void Renderer::DrawText(const std::string& text, const Vec2& position, const Color& color, float scale, float alpha){
+  m_renderer.DrawText(text, position.ToGlm(), color.Normalize().ToGlm(), scale, alpha);
 }
 
 }

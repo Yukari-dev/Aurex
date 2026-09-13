@@ -36,7 +36,7 @@ void PositionTrack::SetEase(EaseType type){
 
 PositionTrack& PositionTrack::From(const Vec2& pos){
   m_animation->SetStartPos(pos);
-  m_hasDefaultValue = true;
+  m_hasDefaultValue = false;
   return *this;
 }
 

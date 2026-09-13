@@ -18,6 +18,7 @@ std::unique_ptr<Forma::RenderData> Panel::RenderData() const {
   data->position = Layout().Position();
   data->size = Layout().Size();
   data->color = Color();
+  data->opacity = Opacity();
   data->order = m_order;
 
   return data;

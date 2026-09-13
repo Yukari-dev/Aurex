@@ -17,12 +17,14 @@ public:
     panel.position = node.position;
     panel.size = node.size;
     panel.color = color;
+    panel.opacity = opacity;
     panel.SetOrder(order);
   }
 
   Vec2 position{};
   Size size{};
   Color color{};
+  float opacity{};
   int32_t order{};
 };
 

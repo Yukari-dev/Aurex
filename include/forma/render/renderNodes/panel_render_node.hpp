@@ -13,6 +13,7 @@ public:
   Vec2 position{};
   Size size{};
   Color color{};
+  float opacity{};
   int32_t order{};
 };
 
