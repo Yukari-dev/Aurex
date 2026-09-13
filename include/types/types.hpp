@@ -8,6 +8,7 @@ struct Vec2{
 
   Vec2() : x(0), y(0) {}
   Vec2(float x, float y) : x(x), y(y) {}
+  Vec2(float s) : x(s), y(s) {}
   Vec2(glm::vec2 v) : x(v.x), y(v.y) {}
 
   Vec2 operator+(const Vec2& other){
@@ -27,6 +28,7 @@ struct Size{
   float width, height;
 
   Size() : width(0), height(0) {}
+  Size(float s) : width(s), height(s) {}
   Size(float width, float height) : width(width), height(height) {}
   Size(glm::vec2 v) : width(v.x), height(v.y) {}
 
