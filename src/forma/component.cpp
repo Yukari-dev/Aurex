@@ -10,6 +10,7 @@ Component::Component(IColorable *colorable) : m_animationController(this, this, 
 
 void Component::Update(float dt){
   m_animationController.Update(dt);
+  m_layout.Update(dt);
   OnUpdate(dt);
   for(auto& child : m_children)
     child->Update(dt);

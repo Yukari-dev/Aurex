@@ -65,6 +65,7 @@ protected:
   UIContext* m_context{nullptr};
   AnimationBuilder m_animationBuilder;
   AnimationController m_animationController;
+  bool m_animatable{false};
   std::vector<std::unique_ptr<Component>> m_children;
 };
 
