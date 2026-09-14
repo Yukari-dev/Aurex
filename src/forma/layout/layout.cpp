@@ -1,4 +1,5 @@
 #include "forma/layout/layout.hpp"
+#include <cmath>
 #include <math.hpp>
 
 namespace Forma{
@@ -7,8 +8,9 @@ using namespace Axiom;
 
 void Layout::Update(float dt){
   if(m_animatable){
-    m_position = EaseLerp(m_position.ToGlm(), m_targetPosition.ToGlm(), m_smoothing * dt, m_easeType);
-    m_size = EaseLerp(m_size.ToGlm(), m_targetSize.ToGlm(), m_smoothing * dt, m_easeType);
+    float factor = 1.0f - std::exp(-m_smoothing * dt);
+    m_position = EaseLerp(m_position.ToGlm(), m_targetPosition.ToGlm(), factor, m_easeType);
+    m_size = EaseLerp(m_size.ToGlm(), m_targetSize.ToGlm(), factor, m_easeType);
     return;
   }
   m_position = m_targetPosition;

@@ -39,132 +39,17 @@ int Application::Run() {
     .SetText("Aurex")
     .SetScale(2.0f)
     .SetColor(Color{"#FFFFFF"});
-  label.SetOpacity(0.0f);
+  label.SetOpacity(1.0f);
 
   label
     .Layout()
+      .SetAnimatable(true)
       .SetPosition({0, -50})
       .SetPositionType(PositionType::Anchor)
       .SetAnchor(Anchor::Center, Anchor::Center);
 
-  auto& subtitle = background.Add<Label>();
-  subtitle
-    .SetText("A new way to build interfaces")
-    .SetScale(0.35f)
-    .SetColor(Color{"#777777"});
-  subtitle.SetOpacity(0.0f);
-  subtitle
-    .Layout()
-      .SetPosition({0, 100})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::Center, Anchor::Center);
+  label.Layout().SetPosition({-100, 0});
 
-  auto& accent = background.Add<Panel>();
-  accent.SetColor({"#FFFFFF"});
-  accent.SetOpacity(0.0f);
-
-  accent
-    .Layout()
-      .SetSize({0, 2})
-      .SetPosition({0, 55})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::Center, Anchor::Center);
-
-  background
-    .Animation()
-      .Opacity()
-        .To(1.0f)
-        .For(0.8f)
-    .Delay(2.0f)
-      .Color()
-        .To(Color{"#FFFFFF"})
-        .Using(EaseType::OutCubic)
-        .For(0.5f);
-
-  label
-    .Animation()
-      .While()
-        .Position()
-          .To(Vec2{0, -20})
-          .Using(EaseType::OutCubic)
-          .For(0.9f)
-      .And()
-        .Opacity()
-          .To(1.0f)
-          .Wait(0.2f)
-          .For(0.7f)
-      .Then()
-        .Color()
-          .To(Color{"#111111"})
-          .Using(EaseType::OutCubic)
-          .Wait(2.0f)
-          .For(0.5f)
-      .Delay(1.9f)
-        .While()
-          .Position()
-            .To(Vec2{0})
-            .Using(EaseType::OutCubic)
-            .For(0.4f);
-
-  subtitle
-    .Animation()
-      .While()
-        .Position()
-          .To(Vec2{0, 40})
-          .Using(EaseType::OutCubic)
-          .Wait(0.45f)
-          .For(0.6f)
-      .And()
-        .Opacity()
-          .To(1.0f)
-          .Wait(0.45f)
-          .For(0.5f)
-      .Then()
-        .Color()
-          .To(Color{"#222222"})
-          .Using(EaseType::OutCubic)
-          .Wait(2.0f)
-          .For(0.5f)
-      .Delay(1.8f)
-        .While()
-          .Position()
-            .To(Vec2{0, 80})
-            .Using(EaseType::OutCubic)
-            .For(0.4f)
-        .And()
-          .Opacity()
-            .To(0.f)
-            .For(0.4f);
-
-  accent
-    .Animation()
-      .While()
-        .Size()
-          .To(Size{250, 2})
-          .Using(EaseType::OutCubic)
-          .Wait(1.0f)
-          .For(0.7f)
-      .And()
-        .Opacity()
-          .To(1.0f)
-          .Wait(1.f)
-          .For(0.3f)
-      .Then()
-        .Color()
-          .To(Color{"#111111"})
-          .Using(EaseType::OutCubic)
-          .Wait(1.0f)
-          .For(0.5f)
-      .Delay(1.5f)
-        .Size()
-          .To(Size{0, 2})
-          .Using(EaseType::OutCubic)
-          .For(0.5f);
-
-  background.Animation().Start();
-  label.Animation().Start();
-  subtitle.Animation().Start();
-  accent.Animation().Start();
 
   float dt{};
   while (!m_window->ShouldClose()) {
