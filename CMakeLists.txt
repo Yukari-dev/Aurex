@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(Forma VERSION 0.1.0 LANGUAGES CXX)
+project(Aurex VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 20)
@@ -19,21 +19,21 @@ find_path(AXIOM_INCLUDE_DIR
 )
 
 file(GLOB_RECURSE PRAXIS_SOURCES
-  "src/forma/*.cpp"
-  "src/forma/layout/*.cpp"
-  "src/forma/input/*.cpp"
-  "src/forma/components/*.cpp"
-  "src/forma/render/*.cpp"
-  "src/forma/render/renderNodes/*.cpp"
-  "src/forma/animation/*.cpp"
-  "src/forma/animation/attributes/*.cpp"
-  "src/forma/animation/groups/*.cpp"
-  "src/forma/animation/trackers/*.cpp"
+  "src/aurex/*.cpp"
+  "src/aurex/layout/*.cpp"
+  "src/aurex/input/*.cpp"
+  "src/aurex/components/*.cpp"
+  "src/aurex/render/*.cpp"
+  "src/aurex/render/renderNodes/*.cpp"
+  "src/aurex/animation/*.cpp"
+  "src/aurex/animation/attributes/*.cpp"
+  "src/aurex/animation/groups/*.cpp"
+  "src/aurex/animation/trackers/*.cpp"
 )
 
-add_library(Forma STATIC ${PRAXIS_SOURCES})
+add_library(Aurex STATIC ${PRAXIS_SOURCES})
 
-target_include_directories(Forma PUBLIC
+target_include_directories(Aurex PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   ${AXIOM_INCLUDE_DIR}
   ${AXIOM_INCLUDE_DIR}/platform
@@ -41,13 +41,13 @@ target_include_directories(Forma PUBLIC
   ${AXIOM_INCLUDE_DIR}/rhi
 )
 
-target_link_libraries(Forma PUBLIC
+target_link_libraries(Aurex PUBLIC
   ${AXIOM_LIB}
   Vulkan::Vulkan
   glfw
 )
 
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/sandbox/main.cpp")
-  add_executable(forma sandbox/main.cpp)
-  target_link_libraries(forma PRIVATE Forma)
+  add_executable(aurex sandbox/main.cpp)
+  target_link_libraries(aurex PRIVATE Aurex)
 endif()

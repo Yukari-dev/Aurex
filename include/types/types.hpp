@@ -4,7 +4,7 @@
 #include <glm/glm.hpp>
 #include <string>
 
-namespace Forma{
+namespace Aurex{
 
 struct Vec2{
   float x, y;
@@ -62,7 +62,7 @@ struct Rect{
     return {x, y};
   }
 
-  Forma::Size Size() const{
+  Aurex::Size Size() const{
     return {width, height};
   }
 

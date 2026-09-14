@@ -1,8 +1,8 @@
-#include "forma/application.hpp"
+#include "aurex/application.hpp"
 
 int main(){
   Axiom::ContextGuard guard;
-  Forma::Application app;
+  Aurex::Application app;
 
   return app.Run();
 }
