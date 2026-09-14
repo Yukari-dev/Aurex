@@ -1,13 +1,14 @@
 #include "aurex/application.hpp"
 #include "aurex/component.hpp"
-#include "aurex/components/label.hpp"
+#include "aurex/component_registry.hpp"
 #include "aurex/components/panel.hpp"
 #include "types/types.hpp"
+#include <memory>
 
 namespace Aurex {
 
 Application::Application() {
-  m_window = std::make_unique<Window>(1300, 720, "Aurex");
+  m_window = std::make_unique<Window>(800, 600, "Aurex");
   m_rhi = std::make_unique<RhiContext>(m_window->GetHandler(), m_window->GetWidth(), m_window->GetHeight());
   m_rhi->SetResizeCallback([this](int width, int height){ this->OnResize(width, height); });
   m_rhi->SetCursorPosCallback([this](double x, double y){ this->OnMouseMove(x, y); });
@@ -32,24 +33,7 @@ int Application::Run() {
   background.Layout()
     .SetSizeType(SizeType::Fill);
   background.SetColor({11, 11, 11});
-  background.SetOpacity(0.0f);
-
-  auto& label = background.Add<Label>();
-  label
-    .SetText("Aurex")
-    .SetScale(2.0f)
-    .SetColor(Color{"#FFFFFF"});
-  label.SetOpacity(1.0f);
-
-  label
-    .Layout()
-      .SetAnimatable(true)
-      .SetPosition({0, 0})
-      .SetPositionType(PositionType::Anchor)
-      .SetAnchor(Anchor::Center, Anchor::Center);
-
-  label.Layout().SetPosition({0, 0});
-
+  background.SetOpacity(1.0f);
 
   float dt{};
   while (!m_window->ShouldClose()) {

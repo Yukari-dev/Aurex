@@ -22,7 +22,6 @@ Layout& Layout::SetAnimatable(bool v){
   return *this;
 }
 
-
 Layout& Layout::SetEaseType(Aurex::EaseType easeType){
   m_easeType = easeType;
   return *this;
@@ -35,11 +34,17 @@ Layout& Layout::SetSmoothing(float v){
 
 Layout& Layout::SetPosition(Vec2 position){
   m_targetPosition = position;
+  if (!m_animatable) {
+    m_position = position;
+  }
   return *this;
 }
 
 Layout& Layout::SetSize(Aurex::Size size){
   m_targetSize = size;
+  if (!m_animatable) {
+    m_size = size;
+  }
   return *this;
 }
 
