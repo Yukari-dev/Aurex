@@ -18,7 +18,17 @@ find_path(AXIOM_INCLUDE_DIR
   PATHS /usr/local/include
 )
 
-file(GLOB_RECURSE PRAXIS_SOURCES
+find_library(AURUIM_LIB
+  NAMES Auruim auruim
+  PATHS /usr/local/lib
+)
+
+find_path(AURUIM_INCLUDE_DIR
+  NAMES auruim/parser.hpp
+  PATHS /usr/local/include
+)
+
+file(GLOB_RECURSE AUREX_SOURCES
   "src/aurex/*.cpp"
   "src/aurex/layout/*.cpp"
   "src/aurex/input/*.cpp"
@@ -31,7 +41,7 @@ file(GLOB_RECURSE PRAXIS_SOURCES
   "src/aurex/animation/trackers/*.cpp"
 )
 
-add_library(Aurex STATIC ${PRAXIS_SOURCES})
+add_library(Aurex STATIC ${AUREX_SOURCES})
 
 target_include_directories(Aurex PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -39,10 +49,12 @@ target_include_directories(Aurex PUBLIC
   ${AXIOM_INCLUDE_DIR}/platform
   ${AXIOM_INCLUDE_DIR}/renderer2d
   ${AXIOM_INCLUDE_DIR}/rhi
+  ${AURUIM_INCLUDE_DIR}
 )
 
 target_link_libraries(Aurex PUBLIC
   ${AXIOM_LIB}
+  ${AURUIM_LIB}
   Vulkan::Vulkan
   glfw
 )

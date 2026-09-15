@@ -1,8 +1,11 @@
 #include "aurex/application.hpp"
 #include "aurex/component.hpp"
-#include "aurex/component_registry.hpp"
-#include "aurex/components/panel.hpp"
+#include "aurex/registry/build.hpp"
+#include "aurex/registry/component_registry.hpp"
+#include "aurex/registry/builtins.hpp"
+#include <auruim/load.hpp>
 #include "types/types.hpp"
+#include <iostream>
 #include <memory>
 
 namespace Aurex {
@@ -22,29 +25,32 @@ Application::Application() {
   m_renderer = std::make_unique<Renderer>(*m_graphicsRenderer);
   m_renderer->SetDefaultFont("assets/fonts/JetBrainsMono-Regular.ttf");
   m_input = std::make_unique<InputSystem>(*m_context);
+  m_registry = std::make_unique<ComponentRegistry>();
+  RegisterBuiltins(*m_registry);
 }
 
 int Application::Run() {
   auto &root = m_context->Root();
   root.Initialize(nullptr, m_context.get());
 
-  auto &background = root.Add<Panel>();
+  if(!ReloadUI("tests/main.aui")) return 1;
 
-  background.Layout()
-    .SetSizeType(SizeType::Fill);
-  background.SetColor({11, 11, 11});
-  background.SetOpacity(1.0f);
-
-  float dt{};
+  bool triggered{false};
   while (!m_window->ShouldClose()) {
     Axiom::Clock::Tick();
     m_window->PollEvents();
-    dt = Axiom::Clock::GetDeltaTime();
+    float dt = Axiom::Clock::GetDeltaTime();
 
     root.Update(dt);
 
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
     m_input->Update(*m_renderTree);
+
+    if (m_input->MousePosition().x > 300.0f && !triggered) {
+      ReloadUI("tests/main.aui");
+      triggered = true;
+    } else if (m_input->MousePosition().x < 300.0f)
+      triggered = false;
 
     m_rhi->BeginFrame();
     m_graphicsRenderer->Begin();
@@ -55,6 +61,26 @@ int Application::Run() {
     m_rhi->EndFrame();
   }
   return 0;
+}
+
+std::unique_ptr<Component> Application::LoadUI(const std::string& path, Component *parent){
+  auto result = Auruim::LoadAndParse(path);
+  if (!result.errors.empty()) {
+    for (auto& d : result.errors)
+      std::cerr << path << ":" << d.line << ":" << d.column << ": " << d.message << '\n';
+    return nullptr;
+  }
+  return BuildTree(*result.node, *m_registry, *m_context, parent);
+}
+
+bool Application::ReloadUI(const std::string& path){
+  auto tree = LoadUI(path, &m_context->Root());
+  if(!tree) return false;
+
+  auto& root = m_context->Root();
+  root.ClearChildren();
+  root.Attach(std::move(tree));
+  return true;
 }
 
 void Application::OnResize(int width, int height){

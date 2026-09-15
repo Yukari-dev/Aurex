@@ -1,11 +1,13 @@
 #pragma once
 #include "aurex/animation/animation_builder.hpp"
 #include "aurex/animation/animation_controller.hpp"
+#include "aurex/registry/component_registry.hpp"
 #include "aurex/interfaces/positionable.hpp"
 #include "aurex/interfaces/sizeable.hpp"
 #include "aurex/ui_Context.hpp"
 #include "aurex/layout/layout.hpp"
 #include "types/types.hpp"
+#include <auruim/node.hpp>
 #include <cstdint>
 #include <vector>
 #include <memory>
@@ -46,14 +48,13 @@ public:
   T& Add(Args&& ...args){
     auto child = std::make_unique<T>(std::forward<Args>(args)...);
     child->Initialize(this, m_context);
-    T& ref = *child;
-    m_children.push_back(std::move(child));
-    return ref;
+    return static_cast<T&>(*Attach(std::move(child)));
   }
 
-  void Remove(Component& component);
-
+  Component *Attach(std::unique_ptr<Component> child);
   Component *Find(uint32_t id);
+  void Remove(Component& component);
+  void ClearChildren();
 
   void Initialize(Component* parent, UIContext* context);
 protected:

@@ -1,4 +1,4 @@
-#include "aurex/component_registry.hpp"
+#include "aurex/registry/component_registry.hpp"
 #include <iostream>
 #include "aurex/component.hpp"
 
@@ -33,7 +33,7 @@ std::unique_ptr<Component> ComponentRegistry::Create(const std::string& type) co
   return it->second();
 }
 
-void ComponentRegistry::Apply(Component& c, const std::string& type, const std::string& prop, const Value& v) const{
+void ComponentRegistry::Apply(Component& c, const std::string& type, const std::string& prop, const Auruim::Value& v) const{
   auto typeIt = m_setters.find(type);
   if(typeIt == m_setters.end()){
     std::cerr << "LOG: No Property is registered for this type: " << type << '\n';
@@ -45,6 +45,11 @@ void ComponentRegistry::Apply(Component& c, const std::string& type, const std::
     return;
   }
   propIt->second(c, v);
+}
+
+void ComponentRegistry::Clear(){
+  m_factories.clear();
+  m_setters.clear();
 }
 
 }

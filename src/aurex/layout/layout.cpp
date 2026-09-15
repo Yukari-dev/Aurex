@@ -84,7 +84,7 @@ Aurex::EaseType Layout::EaseType() const{
 }
 
 float Layout::Smoothing() const{
-  return m_animatable;
+  return m_smoothing;
 }
 
 Vec2 Layout::Position() const{

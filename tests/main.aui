@@ -1,0 +1,25 @@
+@Panel background{
+  position: 0, 0
+  size: 800, 600
+  color: #FFFFFF
+
+  @Panel{
+    position: 300, 200
+    size: 200, 200
+    color: #111111
+
+    @Panel{
+      position_type: relative
+      position: 5, 5
+      size: 90, 90
+      color: #ABADCA
+    }
+
+    @Panel{
+      position_type: relative
+      position: 105, 5
+      size: 90, 90
+      color: #2423AB
+    }
+  }
+}

@@ -99,4 +99,14 @@ Component *Component::Find(uint32_t id){
   return nullptr;
 }
 
+Component* Component::Attach(std::unique_ptr<Component> child){
+  Component* ref = child.get();
+  m_children.push_back(std::move(child));
+  return ref;
+}
+
+void Component::ClearChildren(){
+  m_children.clear();
+}
+
 }

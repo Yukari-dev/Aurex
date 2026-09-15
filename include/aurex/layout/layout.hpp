@@ -47,7 +47,7 @@ private:
   Aurex::Anchor m_anchor{Aurex::Anchor::TopLeft};
   Aurex::Anchor m_parentAnchor{Aurex::Anchor::TopLeft};
   Aurex::SizeType m_sizeType{Aurex::SizeType::Fixed};
-  Aurex::TextAlign m_textAlign{TextAlign::Left};
+  Aurex::TextAlign m_textAlign{TextAlign::None};
 };
 
 }
