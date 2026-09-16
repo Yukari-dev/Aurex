@@ -1,6 +1,7 @@
 #pragma once
 #include "aurex/registry/component_registry.hpp"
 #include "aurex/input/input_system.hpp"
+#include "aurex/registry/file_watcher.hpp"
 #include "aurex/render/render_tree.hpp"
 #include "aurex/render/renderer.hpp"
 #include "aurex/render/synchronizer.hpp"
@@ -37,6 +38,7 @@ private:
   std::unique_ptr<Renderer> m_renderer{nullptr};
   std::unique_ptr<InputSystem> m_input{nullptr};
   std::unique_ptr<ComponentRegistry> m_registry{nullptr};
+  std::unique_ptr<FileWatcher> m_fileWatcher{nullptr};
 };
 
 }

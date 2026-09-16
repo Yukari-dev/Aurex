@@ -26,6 +26,7 @@ Application::Application() {
   m_renderer->SetDefaultFont("assets/fonts/JetBrainsMono-Regular.ttf");
   m_input = std::make_unique<InputSystem>(*m_context);
   m_registry = std::make_unique<ComponentRegistry>();
+  m_fileWatcher = std::make_unique<FileWatcher>("tests/main.aui");
   RegisterBuiltins(*m_registry);
 }
 
@@ -35,7 +36,6 @@ int Application::Run() {
 
   if(!ReloadUI("tests/main.aui")) return 1;
 
-  bool triggered{false};
   while (!m_window->ShouldClose()) {
     Axiom::Clock::Tick();
     m_window->PollEvents();
@@ -46,11 +46,8 @@ int Application::Run() {
     m_synchronizer->Sync(root, m_renderTree->Root(), root.Layout().Rect());
     m_input->Update(*m_renderTree);
 
-    if (m_input->MousePosition().x > 300.0f && !triggered) {
+    if(m_fileWatcher->Changed())
       ReloadUI("tests/main.aui");
-      triggered = true;
-    } else if (m_input->MousePosition().x < 300.0f)
-      triggered = false;
 
     m_rhi->BeginFrame();
     m_graphicsRenderer->Begin();

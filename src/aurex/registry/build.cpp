@@ -23,7 +23,6 @@ std::unique_ptr<Component> BuildTree(
     comp->Attach(std::move(child));
   }
 
-
   return comp;
 }
 
