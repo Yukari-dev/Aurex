@@ -1,5 +1,6 @@
 #include "aurex/registry/builtins.hpp"
 #include "aurex/component.hpp"
+#include "aurex/components/label.hpp"
 #include "aurex/components/panel.hpp"
 #include "aurex/interfaces/colorable.hpp"
 #include "aurex/registry/component_registry.hpp"
@@ -112,26 +113,26 @@ void SetSmoothing(Component& c, const Auruim::Value& v){
 }
 
 void RegisterLayoutProperties(ComponentRegistry& r, const std::string& name){
-  r.RegisterProperty(name, "position", SetPosition);
-  r.RegisterProperty(name, "size", SetSize);
-  r.RegisterProperty(name, "position_type", SetPositionType);
-  r.RegisterProperty(name, "anchor", SetAnchor);
-  r.RegisterProperty(name, "parent_anchor", SetParentAnchor);
-  r.RegisterProperty(name, "size_type", SetSizeType);
-  r.RegisterProperty(name, "text_align", SetTextAlign);
-  r.RegisterProperty(name, "animatable", SetAnimatable);
-  r.RegisterProperty(name, "smoothing", SetSmoothing);
+  r.RegisterProperty(name, "position", SetPosition, Auruim::Value::Array({Auruim::Value::Number(0), Auruim::Value::Number(0)}));
+  r.RegisterProperty(name, "size", SetSize, Auruim::Value::Array({Auruim::Value::Number(0), Auruim::Value::Number(0)}));
+  r.RegisterProperty(name, "position_type", SetPositionType, Auruim::Value::String("absolute"));
+  r.RegisterProperty(name, "anchor", SetAnchor, Auruim::Value::String("topLeft"));
+  r.RegisterProperty(name, "parent_anchor", SetParentAnchor, Auruim::Value::String("topLeft"));
+  r.RegisterProperty(name, "size_type", SetSizeType, Auruim::Value::String("fixed"));
+  r.RegisterProperty(name, "text_align", SetTextAlign, Auruim::Value::String("left"));
+  r.RegisterProperty(name, "animatable", SetAnimatable, Auruim::Value::String("false"));
+  r.RegisterProperty(name, "smoothing", SetSmoothing, Auruim::Value::Number(1.0f));
 }
 
 void RegisterColorProperties(ComponentRegistry& r, const std::string& name){
   r.RegisterProperty(name, "color", [](Component& c, const Auruim::Value& v){
     auto *colorable = dynamic_cast<IColorable*>(&c);
     colorable->SetColor(v.AsData<std::string>());
-  });
+  }, Auruim::Value::String("#000000"));
   r.RegisterProperty(name, "opacity", [](Component& c, const Auruim::Value& v){
     auto *colorable = dynamic_cast<IColorable*>(&c);
     colorable->SetColor(v.AsData<float>());
-  });
+  }, Auruim::Value::Number(1.0f));
 }
 
 template <typename T>

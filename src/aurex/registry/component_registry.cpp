@@ -14,12 +14,15 @@ void ComponentRegistry::RegisterType(const std::string& type, Factory factory){
     std::cerr << "LOG: type " << type << " is already regisrered.\n";
 }
 
-void ComponentRegistry::RegisterProperty(const std::string& type, const std::string& prop, Setter setter){
+void ComponentRegistry::RegisterProperty(
+  const std::string& type, const std::string& prop, Setter setter,
+  Auruim::Value defaultValue
+){
   if(type.empty() || prop.empty()){
     std::cerr << "LOG: Type/Property is Empty.\n";
     return;
   }
-  auto [it, inserted] = m_setters[type].emplace(prop, setter);
+  auto [it, inserted] = m_setters[type].emplace(prop, PropertyInfo{setter, defaultValue});
   if(!inserted)
     std::cerr << "LOG: Duplicate property registration for type: " << type << "with the property: " << prop << '\n';
 }
@@ -44,7 +47,17 @@ void ComponentRegistry::Apply(Component& c, const std::string& type, const std::
     std::cerr << "LOG: Unknwo property: { " << prop << " } on Type: " << type << '\n';
     return;
   }
-  propIt->second(c, v);
+  propIt->second.setter(c, v);
+}
+
+std::optional<Auruim::Value> ComponentRegistry::GetDefault(const std::string& type, const std::string& prop) const{
+  auto typeIt = m_setters.find(type);
+  if(typeIt == m_setters.end()) return std::nullopt;
+  
+  auto propIt = typeIt->second.find(prop);
+  if (propIt == typeIt->second.end()) return std::nullopt;
+
+  return propIt->second.defaultValue;
 }
 
 void ComponentRegistry::Clear(){

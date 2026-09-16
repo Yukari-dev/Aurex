@@ -29,7 +29,7 @@ struct Diff{
   bool structureChanged{false};
 };
 
-Diff ComputeDiff(const Auruim::Node& oldTree, const Auruim::Node& newTree);
+Diff ComputeDiff(const Auruim::Node& oldTree, const Auruim::Node& newTree, const ComponentRegistry& reg);
 
 Component *FindByPath(Component& root, const std::vector<size_t>& path);
 

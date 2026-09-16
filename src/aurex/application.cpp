@@ -70,9 +70,6 @@ std::unique_ptr<Component> Application::LoadUI(const std::string& path, Componen
     return nullptr;
   }
 
-  //if(m_lastTree)
-    //ComputeDiff(*m_lastTree, *newResult.node);
-
   auto tree = BuildTree(*newResult.node, *m_registry, *m_context, parent);
   if (!tree) return nullptr;
 
@@ -98,7 +95,7 @@ bool Application::ReloadUI(const std::string& path){
     return true;
   }
 
-  Diff diff = ComputeDiff(*m_lastTree, *newResult.node);
+  Diff diff = ComputeDiff(*m_lastTree, *newResult.node, *m_registry);
 
   if(diff.structureChanged){
     auto tree = BuildTree(*newResult.node, *m_registry, *m_context, &m_context->Root());

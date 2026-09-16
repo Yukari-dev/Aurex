@@ -2,7 +2,7 @@
 
 namespace Aurex{
 
-Diff ComputeDiff(const Auruim::Node& oldTree, const Auruim::Node& newTree){
+Diff ComputeDiff(const Auruim::Node& oldTree, const Auruim::Node& newTree, const ComponentRegistry& reg){
   Diff diff{};
   
   if(newTree.children.size() != oldTree.children.size()){
@@ -29,13 +29,28 @@ Diff ComputeDiff(const Auruim::Node& oldTree, const Auruim::Node& newTree){
       if(oldName == name) { oldVal = &oldValue; break; }
     }
 
+    for(auto& [oldName, oldValue] : oldTree.props){
+      bool found{false};
+      for(auto& [newName, newVal] : newTree.props){
+        if(newName == oldName) { found = true; break; }
+      }
+
+      if(!found){
+        auto def = reg.GetDefault(newTree.type, oldName);
+        if(def)
+          diff.changed.push_back({ {}, newTree.type, oldName, *def });
+
+      }
+    }
+
     if(!oldVal || *oldVal != newValue){
       diff.changed.push_back({ {}, newTree.type, name, newValue});
     }
+
   }
 
   for(size_t i = 0; i < oldTree.children.size(); ++i){
-    Diff childDiff = ComputeDiff(oldTree.children[i], newTree.children[i]);
+    Diff childDiff = ComputeDiff(oldTree.children[i], newTree.children[i], reg);
 
     if(childDiff.structureChanged){
       diff.structureChanged = true;
