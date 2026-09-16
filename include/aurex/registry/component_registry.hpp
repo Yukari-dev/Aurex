@@ -11,6 +11,7 @@ class Component;
 
 using Factory = std::function<std::unique_ptr<Component>()>;
 using Setter = std::function<void(Component&, const Auruim::Value&)>;
+using Getter = std::function<void(Component&)>;
 
 class ComponentRegistry{
 public:

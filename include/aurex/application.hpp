@@ -7,8 +7,10 @@
 #include "aurex/render/synchronizer.hpp"
 #include "aurex/ui_Context.hpp"
 #include "types/types.hpp"
+#include <auruim/node.hpp>
 #include <memory>
 #include <axiom.h>
+#include <optional>
 
 namespace Aurex{
 
@@ -39,6 +41,7 @@ private:
   std::unique_ptr<InputSystem> m_input{nullptr};
   std::unique_ptr<ComponentRegistry> m_registry{nullptr};
   std::unique_ptr<FileWatcher> m_fileWatcher{nullptr};
+  std::optional<Auruim::Node> m_lastTree{std::nullopt};
 };
 
 }

@@ -1,51 +1,64 @@
 @Panel Background{
+  animatable: true
+  color: rgb(5, 5, 5)
   size_type: fill
-  color: #111111
 
   @Panel{
+    animatable: true
+    smoothing: 10
     position_type: anchor
+    position: 0, 0
     anchor: center
     parent_anchor: center
     size: 200, 200
-    color: #222222
+    color: rgb(255, 255, 255)
 
     @Panel{
+      animatable: true
+      smoothing: 10
       position_type: anchor
+      anchor: topLeft
+      parent_anchor: topLeft
       position: 2, 2
       size_type: percent
       size: 0.485, 0.485
-      color: #77FF77
+      color: rgb(128, 128, 64)
     }
 
     @Panel{
+      animatable: true
+      smoothing: 10
       position_type: anchor
       anchor: topRight
       parent_anchor: topRight
       position: -2, 2
       size_type: percent
       size: 0.485, 0.485
-      color: #FFFF77
+      color: rgb(64, 128, 128)
     }
 
     @Panel{
+      animatable: true
+      smoothing: 10
       position_type: anchor
       anchor: bottomLeft
       parent_anchor: bottomLeft
       position: 2, -2
       size_type: percent
       size: 0.485, 0.485
-      color: #77FFFF
+      color: rgb(128, 64, 128)
     }
 
     @Panel{
+      animatable: true
+      smoothing: 10
       position_type: anchor
       anchor: bottomRight
       parent_anchor: bottomRight
       position: -2, -2
       size_type: percent
       size: 0.485, 0.485
-      color: #FF7777
+      color: rgb(128, 128, 128)
     }
-
   }
 }

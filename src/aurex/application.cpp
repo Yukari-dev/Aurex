@@ -4,6 +4,7 @@
 #include "aurex/registry/component_registry.hpp"
 #include "aurex/registry/builtins.hpp"
 #include <auruim/load.hpp>
+#include "aurex/registry/tree_diff.hpp"
 #include "types/types.hpp"
 #include <iostream>
 #include <memory>
@@ -61,22 +62,53 @@ int Application::Run() {
 }
 
 std::unique_ptr<Component> Application::LoadUI(const std::string& path, Component *parent){
-  auto result = Auruim::LoadAndParse(path);
-  if (!result.errors.empty()) {
-    for (auto& d : result.errors)
+  auto newResult = Auruim::LoadAndParse(path);
+
+  if (!newResult.errors.empty()) {
+    for (auto& d : newResult.errors)
       std::cerr << path << ":" << d.line << ":" << d.column << ": " << d.message << '\n';
     return nullptr;
   }
-  return BuildTree(*result.node, *m_registry, *m_context, parent);
+
+  //if(m_lastTree)
+    //ComputeDiff(*m_lastTree, *newResult.node);
+
+  auto tree = BuildTree(*newResult.node, *m_registry, *m_context, parent);
+  if (!tree) return nullptr;
+
+  m_lastTree = *newResult.node;
+
+  return tree;
 }
 
 bool Application::ReloadUI(const std::string& path){
-  auto tree = LoadUI(path, &m_context->Root());
-  if(!tree) return false;
+  auto newResult = Auruim::LoadAndParse(path);
+  if (!newResult.errors.empty()) {
+    for (auto& d : newResult.errors)
+      std::cerr << path << ":" << d.line << ":" << d.column << ": " << d.message << '\n';
+    return false;
+  }
 
-  auto& root = m_context->Root();
-  root.ClearChildren();
-  root.Attach(std::move(tree));
+  if(!m_lastTree){
+    auto tree = BuildTree(*newResult.node, *m_registry, *m_context, &m_context->Root());
+    if (!tree) return false;
+    m_context->Root().ClearChildren();
+    m_context->Root().Attach(std::move(tree));
+    m_lastTree = *newResult.node;
+    return true;
+  }
+
+  Diff diff = ComputeDiff(*m_lastTree, *newResult.node);
+
+  if(diff.structureChanged){
+    auto tree = BuildTree(*newResult.node, *m_registry, *m_context, &m_context->Root());
+    if(!tree) return false;
+    m_context->Root().ClearChildren();
+    m_context->Root().Attach(std::move(tree));
+  } else
+    ApplyDiff(diff, m_context->Root(), *m_registry);
+
+  m_lastTree = *newResult.node;
   return true;
 }
 
