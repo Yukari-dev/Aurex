@@ -27,7 +27,6 @@ public:
   AnimationBuilder& Animation();
   const AnimationBuilder& Animation() const;
   const std::vector<std::unique_ptr<Component>>& Children() const;
-  IColorable& ColorTarget();
 
   uint32_t ID() const;
 

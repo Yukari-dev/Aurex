@@ -1,0 +1,4 @@
+@Panel background{
+  size: 200, 600
+  color: rgb(128, 128, 255)
+}

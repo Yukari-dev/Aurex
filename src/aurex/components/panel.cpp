@@ -3,13 +3,17 @@
 
 namespace Aurex{
 
-Panel::Panel(Vec2 position, Aurex::Size size, Aurex::Color color) : m_color(color), Component(this){
+Panel::Panel(Vec2 position, Aurex::Size size, Aurex::Color color) : Component(this){
   Layout().SetPosition(position);
   Layout().SetSize(size);
   SetColor(color);
 }
 
 Panel::Panel() : Component(this){
+}
+
+void Panel::OnUpdate(float dt){
+  ColorUpdate(dt);
 }
 
 std::unique_ptr<Aurex::RenderData> Panel::RenderData() const {

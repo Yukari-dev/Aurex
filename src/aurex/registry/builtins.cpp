@@ -104,6 +104,8 @@ void SetAnimatable(Component& c, const Auruim::Value& v){
   auto s = v.AsData<std::string>();
   std::transform(s.begin(), s.end(), s.begin(), [](unsigned char c){ return static_cast<char>(std::tolower(c)); });
   c.Layout().SetAnimatable(s == "true");
+  if (auto *colorable = dynamic_cast<IColorable*>(&c))
+    colorable->SetAnimatable(s == "true");
 }
 
 void SetSmoothing(Component& c, const Auruim::Value& v){
@@ -119,7 +121,6 @@ void RegisterLayoutProperties(ComponentRegistry& r, const std::string& name){
   r.RegisterProperty(name, "anchor", SetAnchor, Auruim::Value::String("topLeft"));
   r.RegisterProperty(name, "parent_anchor", SetParentAnchor, Auruim::Value::String("topLeft"));
   r.RegisterProperty(name, "size_type", SetSizeType, Auruim::Value::String("fixed"));
-  r.RegisterProperty(name, "text_align", SetTextAlign, Auruim::Value::String("left"));
   r.RegisterProperty(name, "animatable", SetAnimatable, Auruim::Value::String("false"));
   r.RegisterProperty(name, "smoothing", SetSmoothing, Auruim::Value::Number(1.0f));
 }
@@ -131,7 +132,21 @@ void RegisterColorProperties(ComponentRegistry& r, const std::string& name){
   }, Auruim::Value::String("#000000"));
   r.RegisterProperty(name, "opacity", [](Component& c, const Auruim::Value& v){
     auto *colorable = dynamic_cast<IColorable*>(&c);
-    colorable->SetColor(v.AsData<float>());
+    colorable->SetOpacity(v.AsData<float>());
+  }, Auruim::Value::Number(1.0f));
+}
+
+void RegisterLabelProperties(ComponentRegistry& r, const std::string& name){
+  r.RegisterProperty(name, "text", [](Component& c, const Auruim::Value& v){
+    auto *text = dynamic_cast<Label*>(&c);
+    text->SetText(v.AsData<std::string>());
+  }, Auruim::Value::String(""));
+
+  r.RegisterProperty(name, "text_align", SetTextAlign, Auruim::Value::String("left"));
+
+  r.RegisterProperty(name, "text_scale", [](Component& c, const Auruim::Value& v){
+    auto *text = dynamic_cast<Label*>(&c);
+    text->SetScale(v.AsData<float>());
   }, Auruim::Value::Number(1.0f));
 }
 
@@ -140,12 +155,16 @@ void Register(ComponentRegistry& r, const std::string& name){
   r.RegisterType(name, []{ return std::make_unique<T>(); });
   RegisterLayoutProperties(r, name);
 
+  if constexpr (std::is_base_of_v<Label, T>)
+    RegisterLabelProperties(r, name);
+
   if constexpr (std::is_base_of_v<IColorable, T>)
     RegisterColorProperties(r, name);
 }
 
 void RegisterBuiltins(ComponentRegistry& r){
   Register<Panel>(r, "Panel");
+  Register<Label>(r, "Label");
 }
 
 }

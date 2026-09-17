@@ -11,6 +11,7 @@ public:
   Label();
   Label(const std::string& text, float scale, Vec2 position, Aurex::Color color);
 
+  void OnUpdate(float dt) override;
   std::unique_ptr<Aurex::RenderData> RenderData() const override;
 
   Label& SetText(const std::string& text);
@@ -22,20 +23,11 @@ public:
   Label& SetScale(float scale);
   float Scale();
 
-  Aurex::Color Color() const override { return m_color;}
-  void SetColor(Aurex::Color color) override { m_color = color; }
-
-  float Opacity() const override { return m_opacity;}
-  void SetOpacity(float opacity) override { m_opacity = opacity; }
-
   Label& SetTextAlign(TextAlign align);
   Aurex::TextAlign TextAlign() const;
 private:
   std::string m_text{};
   float m_scale{1.0f};
-  float m_opacity{1.0f};
-  Aurex::Color m_color{};
-  Aurex::Color m_defaultColor{};
 };
 
 }

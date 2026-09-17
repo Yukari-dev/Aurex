@@ -6,10 +6,14 @@ namespace Aurex{
 Label::Label() : Component(this) {}
 
 Label::Label(const std::string& text, float scale, Vec2 position, Aurex::Color color)
-: Component(this), m_color(color), m_text(text), m_scale(scale){
+: Component(this), m_text(text), m_scale(scale){
   Layout().SetPosition(position);
   Layout().SetSize(m_context->Renderer2D().MeasureText(m_text, m_scale));
   SetColor(color);
+}
+
+void Label::OnUpdate(float dt){
+  ColorUpdate(dt);
 }
 
 std::unique_ptr<Aurex::RenderData> Label::RenderData() const {
@@ -28,16 +32,19 @@ std::unique_ptr<Aurex::RenderData> Label::RenderData() const {
 
 Label& Label::SetText(const std::string& text){
   m_text = text;
+  Layout().SetSize(m_context->Renderer2D().MeasureText(m_text, m_scale));
   return *this;
 }
 
 Label& Label::AddText(const std::string& text, size_t pos){
   m_text.insert(pos, text);
+  Layout().SetSize(m_context->Renderer2D().MeasureText(m_text, m_scale));
   return *this;
 }
 
 Label& Label::AddText(char c, size_t pos){
   m_text.insert(pos, 1, c);
+  Layout().SetSize(m_context->Renderer2D().MeasureText(m_text, m_scale));
   return *this;
 }
 
